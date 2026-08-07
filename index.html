@@ -20,21 +20,16 @@
   --gold:#c9a84c;
   --gold-dim:#8a7030;
   --red:#8b1a1a;
-  --serif:'Times New Roman', 'Songti SC', 'STSong', serif;
+  --serif:'Times New Roman','Songti SC','STSong',serif;
   --sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-  --max-w:1400px;
-  --gap:24px;
+  --max-w:1400px;--gap:24px;
   --section:clamp(60px,10vw,120px);
   --nav-h:64px;
 }
 html{scroll-behavior:smooth;font-size:16px}
 body{
-  font-family:var(--sans);
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  font-family:var(--sans);background:var(--bg);color:var(--text);
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
@@ -45,22 +40,17 @@ ul{list-style:none}
    FILM GRAIN OVERLAY
    ============================================ */
 .film-grain{
-  position:fixed;inset:0;z-index:9999;pointer-events:none;
-  opacity:.04;
+  position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.06;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ============================================
-   SCROLLBAR
+   SCROLLBAR / SELECTION
    ============================================ */
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--text3);border-radius:0}
 ::-webkit-scrollbar-thumb:hover{background:var(--text2)}
-
-/* ============================================
-   CUSTOM SELECTION
-   ============================================ */
 ::selection{background:var(--gold);color:var(--bg)}
 
 /* ============================================
@@ -68,43 +58,33 @@ ul{list-style:none}
    ============================================ */
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  height:var(--nav-h);
-  background:rgba(5,5,5,.92);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
+  height:var(--nav-h);background:rgba(5,5,5,.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;
   transition:transform .4s cubic-bezier(.22,1,.36,1);
 }
 .nav.hidden{transform:translateY(-100%)}
 .nav-inner{
-  width:100%;max-width:var(--max-w);
-  padding:0 var(--section);
+  width:100%;max-width:var(--max-w);padding:0 var(--section);
   display:flex;align-items:center;justify-content:space-between;
 }
 .nav-logo{
-  font-family:var(--serif);
-  font-size:1.25rem;
-  font-weight:700;
-  letter-spacing:.08em;
-  color:var(--text);
+  font-family:var(--serif);font-size:1.25rem;font-weight:700;
+  letter-spacing:.08em;color:var(--text);
 }
 .nav-logo span{color:var(--gold)}
 .nav-links{display:flex;gap:2.5rem;align-items:center}
 .nav-links a{
-  font-size:.8rem;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--text2);
-  transition:color .3s;
-  position:relative;
+  font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text2);transition:color .3s;position:relative;
 }
 .nav-links a:hover,.nav-links a.active{color:var(--text)}
 .nav-links a.active::after{
   content:'';position:absolute;bottom:-4px;left:0;right:0;
   height:1px;background:var(--gold);
 }
-.nav-hamburger{display:none;flex-direction:column;gap:5px;padding:4px}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;padding:12px}
 .nav-hamburger span{
   display:block;width:22px;height:1.5px;background:var(--text);
   transition:transform .3s,opacity .3s;
@@ -120,8 +100,8 @@ ul{list-style:none}
 .mobile-menu.open{display:flex}
 .mobile-menu a{
   font-size:1.1rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--text2);padding:.5rem 0;border-bottom:1px solid var(--border);
-  transition:color .3s;
+  color:var(--text2);padding:1rem 0;border-bottom:1px solid var(--border);
+  transition:color .3s;min-height:44px;display:flex;align-items:center;
 }
 .mobile-menu a:hover,.mobile-menu a.active{color:var(--text)}
 
@@ -134,20 +114,13 @@ ul{list-style:none}
   color:var(--gold);margin-bottom:.75rem;
 }
 .section-title{
-  font-family:var(--serif);
-  font-size:clamp(1.75rem,4vw,2.75rem);
-  font-weight:400;
-  line-height:1.18;
-  letter-spacing:.02em;
-  margin-bottom:1rem;
-  color:var(--text);
+  font-family:var(--serif);font-size:clamp(1.75rem,4vw,2.75rem);
+  font-weight:400;line-height:1.18;letter-spacing:.02em;
+  margin-bottom:1rem;color:var(--text);
 }
 .section-sub{
-  font-size:1rem;
-  color:var(--text2);
-  max-width:520px;
-  line-height:1.7;
-  margin-bottom:2.5rem;
+  font-size:1rem;color:var(--text2);max-width:520px;
+  line-height:1.7;margin-bottom:2.5rem;
 }
 
 /* ============================================
@@ -155,69 +128,63 @@ ul{list-style:none}
    ============================================ */
 .hero{
   min-height:100vh;min-height:100dvh;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:center;
-  padding-top:var(--nav-h);
-  overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;padding-top:var(--nav-h);overflow:hidden;
 }
 .hero-text{
   padding:clamp(2rem,6vw,5rem);
-  display:flex;flex-direction:column;justify-content:center;
-  z-index:2;
+  display:flex;flex-direction:column;justify-content:center;z-index:2;
 }
 .hero-label{
   font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:1.5rem;
-  opacity:0;
+  color:var(--gold);margin-bottom:1.5rem;opacity:0;
 }
 .hero-title{
-  font-family:var(--serif);
-  font-size:clamp(2.5rem,6vw,4.5rem);
-  font-weight:400;
-  line-height:1.08;
-  letter-spacing:.01em;
-  margin-bottom:1.5rem;
-  opacity:0;
+  font-family:var(--serif);font-size:clamp(2.5rem,6vw,4.5rem);
+  font-weight:400;line-height:1.08;letter-spacing:.01em;
+  margin-bottom:1.5rem;opacity:0;
 }
 .hero-title em{font-style:italic;color:var(--gold)}
 .hero-desc{
-  font-size:1rem;
-  color:var(--text2);
-  line-height:1.8;
-  max-width:420px;
-  margin-bottom:2.5rem;
-  opacity:0;
+  font-size:1rem;color:var(--text2);line-height:1.8;
+  max-width:420px;margin-bottom:2.5rem;opacity:0;
 }
 .hero-cta{
   display:inline-flex;align-items:center;gap:.75rem;
   font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--text);
-  border-bottom:1px solid var(--gold);
-  padding-bottom:.5rem;
-  transition:gap .4s cubic-bezier(.22,1,.36,1),color .3s;
+  color:var(--text);border-bottom:1px solid var(--gold);
+  padding-bottom:.5rem;transition:gap .4s cubic-bezier(.22,1,.36,1),color .3s;
   opacity:0;
 }
 .hero-cta:hover{gap:1.25rem;color:var(--gold)}
 .hero-image{
-  position:relative;
-  height:100%;min-height:100vh;min-height:100dvh;
-  overflow:hidden;
+  position:relative;height:100%;min-height:100vh;min-height:100dvh;
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at center,rgba(201,168,76,.08),transparent 70%);
 }
-.hero-image img{
-  width:100%;height:100%;object-fit:cover;
-  filter:brightness(.85) contrast(1.05);
+.hero-image .hero-logo-display{
+  font-family:var(--serif);
+  font-size:clamp(3rem,8vw,7rem);
+  font-weight:700;letter-spacing:.08em;
+  color:var(--text);
+  text-align:center;
+  line-height:1;
+}
+.hero-image .hero-logo-display span{color:var(--gold)}
+.hero-tagline{
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text3);margin-top:1rem;text-align:center;
 }
 .hero-scroll{
   position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:.5rem;
-  z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;z-index:3;
 }
 .hero-scroll span{
   font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);
 }
 .hero-scroll-line{
-  width:1px;height:40px;background:linear-gradient(to bottom,var(--gold-dim),transparent);
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,var(--gold-dim),transparent);
   animation:scrollPulse 2s ease-in-out infinite;
 }
 @keyframes scrollPulse{
@@ -229,25 +196,23 @@ ul{list-style:none}
    SERIES BENTO GRID
    ============================================ */
 .series-bento{
-  display:grid;
-  grid-template-columns:1.6fr 1fr;
-  grid-template-rows:auto auto;
-  gap:var(--gap);
+  display:grid;grid-template-columns:1.6fr 1fr;
+  grid-template-rows:auto auto;gap:var(--gap);
 }
 .bento-card{
   position:relative;overflow:hidden;cursor:pointer;
-  background:var(--surface);
-  min-height:400px;
+  background:var(--surface);min-height:400px;
   transition:transform .5s cubic-bezier(.22,1,.36,1);
 }
 .bento-card:hover{transform:scale(.98)}
 .bento-card.large{grid-row:span 2}
-.bento-card img{
-  width:100%;height:100%;object-fit:cover;
-  filter:brightness(.7) contrast(1.1);
-  transition:filter .6s,transform .6s cubic-bezier(.22,1,.36,1);
+.bento-card .bento-bg{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
 }
-.bento-card:hover img{filter:brightness(.85) contrast(1.05);transform:scale(1.03)}
+.bento-card .bento-icon{
+  font-family:var(--serif);font-size:6rem;color:var(--gold);opacity:.15;
+}
 .bento-card .bento-overlay{
   position:absolute;bottom:0;left:0;right:0;
   padding:2.5rem;
@@ -258,40 +223,33 @@ ul{list-style:none}
   color:var(--gold);margin-bottom:.5rem;
 }
 .bento-card .bento-title{
-  font-family:var(--serif);
-  font-size:1.5rem;color:var(--text);
+  font-family:var(--serif);font-size:1.5rem;color:var(--text);
   margin-bottom:.35rem;
 }
-.bento-card .bento-count{
-  font-size:.8rem;color:var(--text2);
-}
+.bento-card .bento-count{font-size:.8rem;color:var(--text2)}
+.bento-card.wide{display:block;margin-top:var(--gap);min-height:350px}
 
 /* ============================================
    PRODUCT GRID
    ============================================ */
 .product-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
   gap:var(--gap);
 }
 .product-card{
-  cursor:pointer;
-  transition:transform .4s cubic-bezier(.22,1,.36,1);
+  cursor:pointer;transition:transform .4s cubic-bezier(.22,1,.36,1);
 }
 .product-card:hover{transform:translateY(-4px)}
 .product-image{
-  position:relative;overflow:hidden;
-  aspect-ratio:3/4;
-  background:var(--surface);
-  margin-bottom:1rem;
+  position:relative;overflow:hidden;aspect-ratio:3/4;
+  background:var(--surface);margin-bottom:1rem;
 }
 .product-image img{
   width:100%;height:100%;object-fit:cover;
   transition:opacity .5s,transform .6s cubic-bezier(.22,1,.36,1);
 }
 .product-image img.alt-img{
-  position:absolute;top:0;left:0;
-  opacity:0;
+  position:absolute;top:0;left:0;opacity:0;
 }
 .product-card:hover .product-image img.primary{opacity:0}
 .product-card:hover .product-image img.alt-img{opacity:1}
@@ -300,15 +258,12 @@ ul{list-style:none}
   position:absolute;top:1rem;left:1rem;
   font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
   background:rgba(0,0,0,.75);color:var(--gold);
-  padding:.3rem .7rem;
-  z-index:1;
+  padding:.3rem .7rem;z-index:1;
 }
 .product-info{padding:0 .25rem}
 .product-name{
-  font-family:var(--serif);
-  font-size:1.05rem;
-  margin-bottom:.35rem;
-  color:var(--text);
+  font-family:var(--serif);font-size:1.05rem;
+  margin-bottom:.35rem;color:var(--text);
 }
 .product-desc{
   font-size:.82rem;color:var(--text2);
@@ -332,8 +287,7 @@ ul{list-style:none}
   -webkit-backdrop-filter:blur(10px);
   display:flex;align-items:center;gap:.75rem;
   font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--text2);
-  cursor:pointer;transition:color .3s;
+  color:var(--text2);cursor:pointer;transition:color .3s;
   border-bottom:1px solid var(--border);
 }
 .detail-back:hover{color:var(--text)}
@@ -344,11 +298,11 @@ ul{list-style:none}
 }
 .detail-gallery{padding:var(--gap)}
 .detail-gallery img{
-  width:100%;margin-bottom:var(--gap);
-  background:var(--surface);
+  width:100%;margin-bottom:var(--gap);background:var(--surface);
 }
 .detail-info{
-  padding:clamp(2rem,4vw,4rem);display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(2rem,4vw,4rem);
+  display:flex;flex-direction:column;justify-content:center;
   position:sticky;top:calc(var(--nav-h) + 54px);
   align-self:start;height:fit-content;
 }
@@ -359,8 +313,7 @@ ul{list-style:none}
 .detail-name{
   font-family:var(--serif);
   font-size:clamp(2rem,3.5vw,3rem);
-  font-weight:400;line-height:1.15;
-  margin-bottom:1rem;
+  font-weight:400;line-height:1.15;margin-bottom:1rem;
 }
 .detail-price{font-size:1.5rem;font-weight:600;margin-bottom:1.5rem}
 .detail-price em{
@@ -369,8 +322,7 @@ ul{list-style:none}
 }
 .detail-desc{
   font-size:.95rem;color:var(--text2);
-  line-height:1.8;margin-bottom:2rem;
-  max-width:420px;
+  line-height:1.8;margin-bottom:2rem;max-width:420px;
 }
 .detail-specs{margin-bottom:2rem}
 .detail-specs h4{
@@ -386,7 +338,7 @@ ul{list-style:none}
 .detail-specs li span:first-child{color:var(--text2)}
 .detail-specs li span:last-child{color:var(--text);font-weight:500}
 .detail-actions{display:flex;gap:1rem}
-.detail-actions a{
+.detail-actions button{
   display:inline-flex;align-items:center;gap:.5rem;
   padding:.85rem 2rem;
   font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
@@ -402,81 +354,7 @@ ul{list-style:none}
 .detail-secondary:hover{border-color:var(--text2);color:var(--text)}
 
 /* ============================================
-   BRAND STORY
-   ============================================ */
-.brand-story{
-  background:var(--surface);
-  padding:var(--section) 0;
-}
-.story-inner{
-  max-width:var(--max-w);margin:0 auto;padding:0 var(--section);
-  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
-}
-.story-text h2{
-  font-family:var(--serif);
-  font-size:clamp(2rem,4vw,3rem);
-  font-weight:400;line-height:1.15;
-  margin-bottom:2rem;
-}
-.story-text .story-quote{
-  font-family:var(--serif);font-style:italic;
-  font-size:1.35rem;line-height:1.6;color:var(--gold);
-  margin-bottom:1.5rem;
-}
-.story-text p{
-  font-size:.95rem;color:var(--text2);
-  line-height:1.8;margin-bottom:1.25rem;
-  max-width:460px;
-}
-.story-image img{width:100%;filter:brightness(.8) contrast(1.1)}
-
-/* ============================================
-   LOOKBOOK
-   ============================================ */
-.lookbook-grid{
-  display:grid;
-  grid-template-columns:1.5fr 1fr 1fr;
-  grid-template-rows:auto auto;
-  gap:var(--gap);
-}
-.lookbook-item{position:relative;overflow:hidden;cursor:pointer}
-.lookbook-item.tall{grid-row:span 2}
-.lookbook-item img{
-  width:100%;height:100%;object-fit:cover;
-  filter:brightness(.7) contrast(1.05);
-  transition:filter .5s,transform .6s cubic-bezier(.22,1,.36,1);
-}
-.lookbook-item:hover img{filter:brightness(.9);transform:scale(1.04)}
-.lookbook-caption{
-  position:absolute;bottom:1.5rem;left:1.5rem;
-  font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--text);background:rgba(0,0,0,.6);
-  padding:.4rem .9rem;
-}
-
-/* ============================================
-   STYLE GUIDE
-   ============================================ */
-.guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
-.guide-card{
-  background:var(--surface);padding:2rem;
-  transition:transform .3s;
-}
-.guide-card:hover{transform:translateY(-4px)}
-.guide-icon{
-  font-size:2rem;margin-bottom:1rem;color:var(--gold);
-}
-.guide-card h3{
-  font-family:var(--serif);
-  font-size:1.15rem;margin-bottom:.75rem;color:var(--text);
-}
-.guide-card p{
-  font-size:.85rem;color:var(--text2);
-  line-height:1.7;
-}
-
-/* ============================================
-   SIZE GUIDE TABLE
+   SIZE TABLE
    ============================================ */
 .size-table{
   width:100%;border-collapse:collapse;margin-top:2rem;
@@ -493,6 +371,96 @@ ul{list-style:none}
 .size-table tr:hover td{color:var(--text);background:var(--surface)}
 
 /* ============================================
+   BRAND STORY
+   ============================================ */
+.brand-story{
+  background:var(--surface);padding:var(--section) 0;
+}
+.story-inner{
+  max-width:var(--max-w);margin:0 auto;padding:0 var(--section);
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+}
+.story-text h2{
+  font-family:var(--serif);
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:400;line-height:1.15;margin-bottom:2rem;
+}
+.story-text .story-quote{
+  font-family:var(--serif);font-style:italic;
+  font-size:1.35rem;line-height:1.6;color:var(--gold);
+  margin-bottom:1.5rem;
+}
+.story-text p{
+  font-size:.95rem;color:var(--text2);
+  line-height:1.8;margin-bottom:1.25rem;max-width:460px;
+}
+.story-visual{
+  background:radial-gradient(ellipse at center,rgba(201,168,76,.1),transparent 70%);
+  min-height:400px;
+  display:flex;align-items:center;justify-content:center;
+}
+.story-visual .story-symbol{
+  font-family:var(--serif);
+  font-size:8rem;color:var(--gold);opacity:.2;
+}
+
+/* ============================================
+   MANIFESTO
+   ============================================ */
+.manifesto{
+  position:relative;overflow:hidden;background:var(--bg);
+  padding:var(--section) 0;
+  min-height:70vh;min-height:70dvh;
+  display:flex;align-items:center;justify-content:center;
+}
+.manifesto-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,rgba(201,168,76,.06),transparent 70%);
+}
+.manifesto-content{
+  position:relative;z-index:1;text-align:center;
+  max-width:720px;padding:0 var(--section);
+}
+.manifesto-line{
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(1.35rem,3vw,2rem);
+  color:var(--text);line-height:1.6;
+  margin-bottom:1.5rem;opacity:0;
+}
+.manifesto-line.gold{color:var(--gold)}
+.manifesto-line.dim{color:var(--text2);font-size:clamp(1rem,2vw,1.35rem)}
+.manifesto-divider{
+  width:60px;height:1px;background:var(--gold);
+  margin:2rem auto;opacity:0;
+}
+.manifesto-cta{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);padding:.75rem 2rem;
+  border:1px solid var(--gold-dim);
+  transition:all .3s;opacity:0;
+}
+.manifesto-cta:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+
+/* ============================================
+   STYLE GUIDE
+   ============================================ */
+.guide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+.guide-card{
+  background:var(--surface);padding:2rem;
+  transition:transform .3s;
+}
+.guide-card:hover{transform:translateY(-4px)}
+.guide-icon{font-size:2rem;margin-bottom:1rem;color:var(--gold)}
+.guide-card h3{
+  font-family:var(--serif);font-size:1.15rem;
+  margin-bottom:.75rem;color:var(--text);
+}
+.guide-card p{
+  font-size:.85rem;color:var(--text2);line-height:1.7;
+}
+
+/* ============================================
    FOOTER
    ============================================ */
 .footer{
@@ -501,10 +469,8 @@ ul{list-style:none}
   display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem;
 }
 .footer-brand{
-  font-family:var(--serif);
-  font-size:1.1rem;letter-spacing:.06em;
-  color:var(--text);
-  margin-bottom:1rem;
+  font-family:var(--serif);font-size:1.1rem;
+  letter-spacing:.06em;color:var(--text);margin-bottom:1rem;
 }
 .footer p{font-size:.8rem;color:var(--text3);line-height:1.7}
 .footer h4{
@@ -527,18 +493,14 @@ ul{list-style:none}
   .hero{grid-template-columns:1fr}
   .hero-text{order:1;padding:3rem var(--section) 2rem}
   .hero-image{order:0;min-height:55vh}
-  .hero-image img{min-height:55vh}
   .series-bento{grid-template-columns:1fr 1fr}
   .bento-card.large{grid-row:span 1}
   .story-inner{grid-template-columns:1fr;gap:2rem}
   .detail-content{grid-template-columns:1fr}
   .detail-info{position:static;padding:2rem}
-  .lookbook-grid{grid-template-columns:1fr 1fr}
-  .lookbook-item.tall{grid-row:span 1}
   .guide-grid{grid-template-columns:1fr 1fr}
   .footer{grid-template-columns:1fr 1fr}
 }
-
 @media (max-width:768px){
   .nav-links{display:none}
   .nav-hamburger{display:flex}
@@ -546,12 +508,10 @@ ul{list-style:none}
   .hero-title{font-size:2rem}
   .series-bento{grid-template-columns:1fr}
   .product-grid{grid-template-columns:1fr 1fr}
-  .lookbook-grid{grid-template-columns:1fr}
   .guide-grid{grid-template-columns:1fr}
   .detail-actions{flex-direction:column}
   .footer{grid-template-columns:1fr;gap:2rem}
 }
-
 @media (max-width:480px){
   .product-grid{grid-template-columns:1fr}
   .detail-info{padding:1.5rem}
@@ -562,16 +522,13 @@ ul{list-style:none}
 
 <div class="film-grain"></div>
 
-<!-- ============================================
-     NAVIGATION
-     ============================================ -->
+<!-- NAVIGATION -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#home" class="nav-logo" onclick="navigate('home')">BLACK<span>+</span>SEIZE</a>
     <div class="nav-links" id="navLinks">
       <a href="#home" class="active" data-nav="home">首页</a>
       <a href="#shop" data-nav="shop">系列</a>
-      <a href="#lookbook" data-nav="lookbook">Lookbook</a>
       <a href="#guide" data-nav="guide">穿搭指南</a>
       <a href="#story" data-nav="story">品牌故事</a>
     </div>
@@ -583,20 +540,16 @@ ul{list-style:none}
 <div class="mobile-menu" id="mobileMenu">
   <a href="#home" onclick="navigate('home');closeMenu()">首页</a>
   <a href="#shop" onclick="navigate('shop');closeMenu()">系列</a>
-  <a href="#lookbook" onclick="navigate('lookbook');closeMenu()">Lookbook</a>
   <a href="#guide" onclick="navigate('guide');closeMenu()">穿搭指南</a>
   <a href="#story" onclick="navigate('story');closeMenu()">品牌故事</a>
 </div>
 
-<!-- ============================================
-     MAIN CONTENT
-     ============================================ -->
+<!-- MAIN CONTENT -->
 <main id="main">
 
-<!-- HOME PAGE -->
 <div id="page-home">
 
-  <!-- HERO -->
+  <!-- HERO — typographic focus, no model faces -->
   <section class="hero" id="hero">
     <div class="hero-text">
       <div class="hero-label anim-up">Black + Seize 暗驭</div>
@@ -605,7 +558,10 @@ ul{list-style:none}
       <a href="#shop" class="hero-cta anim-up" onclick="navigate('shop')">探索系列</a>
     </div>
     <div class="hero-image">
-      <img src="images/hero/hero.png" alt="BLACK+SEIZE 暗驭 Hero">
+      <div>
+        <div class="hero-logo-display">BLACK<span>+</span>SEIZE</div>
+        <div class="hero-tagline">你穿在身上的权力</div>
+      </div>
       <div class="hero-scroll">
         <span>Scroll</span>
         <div class="hero-scroll-line"></div>
@@ -613,14 +569,14 @@ ul{list-style:none}
     </div>
   </section>
 
-  <!-- SERIES OVERVIEW — BENTO -->
+  <!-- SERIES OVERVIEW -->
   <section class="section">
     <div class="section-label">The Collections</div>
     <h2 class="section-title">四个系列，四种权力叙事</h2>
-    <p class="section-sub">从羞怯到自信，从柔软到锋利——每一件都是你某一面的外化。</p>
+    <p class="section-sub">从试探到掌控，从柔软到仪式——每一件都是你某一面的外化。</p>
     <div class="series-bento">
       <a class="bento-card large" href="#first" onclick="scrollToSeries('first')">
-        <img src="images/series/first.png" alt="初识系列">
+        <div class="bento-bg"><div class="bento-icon">I</div></div>
         <div class="bento-overlay">
           <div class="bento-label">First Collection</div>
           <div class="bento-title">初识</div>
@@ -628,15 +584,15 @@ ul{list-style:none}
         </div>
       </a>
       <a class="bento-card" href="#core" onclick="scrollToSeries('core')">
-        <img src="images/series/core.png" alt="暗涌系列">
+        <div class="bento-bg"><div class="bento-icon">II</div></div>
         <div class="bento-overlay">
           <div class="bento-label">Core Collection</div>
           <div class="bento-title">暗涌</div>
-          <div class="bento-count">3 款 · ¥69</div>
+          <div class="bento-count">3 款 · ¥69 起</div>
         </div>
       </a>
       <a class="bento-card" href="#power" onclick="scrollToSeries('power')">
-        <img src="images/series/power.png" alt="掌控系列">
+        <div class="bento-bg"><div class="bento-icon">III</div></div>
         <div class="bento-overlay">
           <div class="bento-label">Power Collection</div>
           <div class="bento-title">掌控</div>
@@ -644,12 +600,12 @@ ul{list-style:none}
         </div>
       </a>
     </div>
-    <a class="bento-card" href="#ceremony" onclick="scrollToSeries('ceremony')" style="display:block;margin-top:var(--gap);min-height:350px">
-      <img src="images/series/ceremony.png" alt="仪式系列" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7) contrast(1.1)">
+    <a class="bento-card wide" href="#ceremony" onclick="scrollToSeries('ceremony')">
+      <div class="bento-bg"><div class="bento-icon">IV</div></div>
       <div class="bento-overlay">
         <div class="bento-label">Ceremony Collection</div>
         <div class="bento-title">仪式</div>
-        <div class="bento-count">3 款 · ¥128 起</div>
+        <div class="bento-count">3 款 · ¥89 起</div>
       </div>
     </a>
   </section>
@@ -666,7 +622,7 @@ ul{list-style:none}
   <section class="section" id="core">
     <div class="section-label">Core Collection</div>
     <h2 class="section-title">暗涌 · 身体即宣言</h2>
-    <p class="section-sub">不再试探，不再犹豫。暗涌是水面下的力量——剪裁如建筑，蕾丝如宣言。</p>
+    <p class="section-sub">剪裁如建筑，蕾丝如宣言。暗涌是水下力量——穿上它，不需要说一个字。</p>
     <div class="product-grid" id="grid-core"></div>
   </section>
 
@@ -674,7 +630,7 @@ ul{list-style:none}
   <section class="section" id="power">
     <div class="section-label">Power Collection</div>
     <h2 class="section-title">掌控 · 你即规则</h2>
-    <p class="section-sub">皮革、金属、束缚——不是被控制，是你选择交出什么，收走什么。权力在你手中。</p>
+    <p class="section-sub">皮革、金属、绑带——不是被控制，是你选择交出什么，收走什么。权力始终在你手中。</p>
     <div class="product-grid" id="grid-power"></div>
   </section>
 
@@ -686,19 +642,6 @@ ul{list-style:none}
     <div class="product-grid" id="grid-ceremony"></div>
   </section>
 
-  <!-- LOOKBOOK -->
-  <section class="section" id="lookbook-section">
-    <div class="section-label">Editorial</div>
-    <h2 class="section-title">Lookbook</h2>
-    <p class="section-sub">暗驭不只穿在身上，更是一种生活方式的切片——在清晨的公寓、黄昏的露台、深夜的展厅。</p>
-    <div class="lookbook-grid">
-      <div class="lookbook-item tall"><img src="images/lookbook/scene1.png" alt="Lookbook 1"><div class="lookbook-caption">Morning Light</div></div>
-      <div class="lookbook-item"><img src="images/lookbook/scene2.png" alt="Lookbook 2"><div class="lookbook-caption">Gallery Stroll</div></div>
-      <div class="lookbook-item"><img src="images/lookbook/scene3.png" alt="Lookbook 3"><div class="lookbook-caption">Quiet Night</div></div>
-      <div class="lookbook-item"><img src="images/lookbook/scene4.png" alt="Lookbook 4"><div class="lookbook-caption">City Dusk</div></div>
-    </div>
-  </section>
-
   <!-- BRAND STORY -->
   <section class="brand-story" id="story-section">
     <div class="story-inner">
@@ -706,39 +649,57 @@ ul{list-style:none}
         <h2>黑色不是颜色缺失<br>是所有颜色的总和</h2>
         <div class="story-quote">"穿上它，你不再是别人眼中的谁——你是自己选择成为的那个人。"</div>
         <p>BLACK+SEIZE 暗驭诞生于一个简单的信念：情趣内衣不该是讨好别人的工具。它是自我取悦的仪式，是身体与欲望之间的私密对话。</p>
-        <p>我们把黑色作为权力符号——不是因为它在时尚界的经典地位，而是因为黑色吸收一切、包容一切、定义一切。正如你自己的身体，不需要任何解释。</p>
+        <p>我们把黑色作为权力符号——不是因为它经典，而是因为黑色吸收一切、包容一切、定义一切。正如你自己的身体，不需要任何解释。</p>
       </div>
-      <div class="story-image"><img src="images/hero/hero.png" alt="品牌故事"></div>
+      <div class="story-visual"><div class="story-symbol">B+S</div></div>
     </div>
   </section>
 
-  <!-- STYLE GUIDE PREVIEW -->
+  <!-- BRAND MANIFESTO -->
+  <section class="manifesto" id="manifesto">
+    <div class="manifesto-bg"></div>
+    <div class="manifesto-content">
+      <div class="manifesto-line anim-manifesto">黑色不是颜色的缺失，</div>
+      <div class="manifesto-line gold anim-manifesto">是所有颜色的总和。</div>
+      <div class="manifesto-line dim anim-manifesto">穿上它，你不再是别人眼中的谁——</div>
+      <div class="manifesto-line anim-manifesto">你是自己选择成为的那个人。</div>
+      <div class="manifesto-divider anim-manifesto"></div>
+      <a href="#shop" class="manifesto-cta anim-manifesto" onclick="navigate('shop')">探索暗驭</a>
+    </div>
+  </section>
+
+  <!-- STYLE GUIDE -->
   <section class="section" id="guide-section">
     <div class="section-label">Style Guide</div>
     <h2 class="section-title">穿搭指南</h2>
-    <p class="section-sub">穿暗驭不是为了别人看到——是为了你自己感受到。但如果你想知道怎么穿、怎么搭，这里有答案。</p>
+    <p class="section-sub">穿暗驭不是为了别人看到，是为了你自己感受到。</p>
     <div class="guide-grid">
       <div class="guide-card">
         <div class="guide-icon">🌙</div>
         <h3>独处仪式</h3>
-        <p>睡袍 + 真丝眼罩，点一支香薰蜡烛。这不是"穿给自己看"——这是今晚最重要的一场约会。推荐：仪式系列睡袍。</p>
+        <p>睡袍 + 香薰蜡烛。这不是"穿给自己看"——这是今晚最重要的一场约会。推荐：仪式系列睡袍。</p>
       </div>
       <div class="guide-card">
         <div class="guide-icon">🖤</div>
         <h3>惊喜之夜</h3>
-        <p>在外套下藏一件暗涌连体衣。不需要额外准备——脱下外套的瞬间，就是今晚的转折点。</p>
+        <p>在外套下藏一件暗涌连体衣。脱下外套的瞬间，就是今晚的转折点。</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-icon">📐</div>
+        <h3>尺码选择</h3>
+        <p>S码适合娇小身材（胸围80-84），M码标准（胸围84-88），L码丰满（胸围88-92）。蕾丝贴合皮肤才能发挥最大美感。不确定时选大一号。</p>
       </div>
       <div class="guide-card">
         <div class="guide-icon">✨</div>
         <h3>自信日常</h3>
-        <p>Bralette 可以穿在西装里。没人知道你的秘密，但你知道——这种安静的力量，比任何宣言都强。推荐：初识系列暗纹蕾丝。</p>
+        <p>Bralette 可以穿在西装里。没人知道你的秘密，但你知道——这种安静的力量比任何宣言都强。推荐：初识系列吊带套装。</p>
       </div>
     </div>
   </section>
 
-</div><!-- /#page-home -->
+</div>
 
-<!-- PRODUCT DETAIL PAGES -->
+<!-- PRODUCT DETAIL PAGE -->
 <div id="page-detail" class="detail-page">
   <div class="detail-back" onclick="navigate('home')">返回</div>
   <div class="detail-content" id="detail-content"></div>
@@ -755,16 +716,16 @@ ul{list-style:none}
     </div>
     <div>
       <h4>系列</h4>
-      <a href="#first" onclick="scrollToSeries('first')">初识 First Collection</a>
-      <a href="#core" onclick="scrollToSeries('core')">暗涌 Core Collection</a>
-      <a href="#power" onclick="scrollToSeries('power')">掌控 Power Collection</a>
-      <a href="#ceremony" onclick="scrollToSeries('ceremony')">仪式 Ceremony Collection</a>
+      <a href="#first" onclick="scrollToSeries('first')">初识</a>
+      <a href="#core" onclick="scrollToSeries('core')">暗涌</a>
+      <a href="#power" onclick="scrollToSeries('power')">掌控</a>
+      <a href="#ceremony" onclick="scrollToSeries('ceremony')">仪式</a>
     </div>
     <div>
       <h4>更多</h4>
-      <a href="#lookbook" onclick="navigate('home');setTimeout(()=>document.getElementById('lookbook-section').scrollIntoView(),100)">Lookbook</a>
       <a href="#guide" onclick="navigate('home');setTimeout(()=>document.getElementById('guide-section').scrollIntoView(),100)">穿搭指南</a>
       <a href="#story" onclick="navigate('home');setTimeout(()=>document.getElementById('story-section').scrollIntoView(),100)">品牌故事</a>
+      <a href="#manifesto" onclick="navigate('home');setTimeout(()=>document.getElementById('manifesto').scrollIntoView(),100)">品牌宣言</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -779,98 +740,89 @@ ul{list-style:none}
 
 <script>
 /* ============================================
-   PRODUCT DATA
+   PRODUCT DATA — aligned to SKU手册
+   No supplier links in consumer-facing code
    ============================================ */
 const products = {
   sku01: {
-    series:'First Collection', seriesName:'初识', id:'first',
-    name:'初识 · 吊带袜', tag:'入门款',
-    desc:'黑色蕾丝吊带袜套装，你的第一件暗驭。细肩带设计，蕾丝边缘若隐若现，让入门级的试探也充满仪式感。',
+    series:'初识', seriesLabel:'First Collection', id:'first',
+    name:'初识·暗夜吊带袜套装', tag:'入门款',
+    desc:'黑色蕾丝吊带袜套装，你的第一件暗驭。细肩带设计，蕾丝边缘若隐若现，让入门级的试探也充满仪式感。最低决策成本，最高自我发现。',
     price:'¥29.9',
-    img:'images/products/sku01_front.png', imgAlt:'images/products/sku01_alt.png',
-    link:'https://www.coovee.com/detail42507400.html',
-    specs:{'材质':'蕾丝+尼龙','尺码':'S / M / L','颜色':'黑色','风格':'入门 / 试探','洗涤':'手洗，阴凉处晾干'}
+    main:'images/products/sku01_main.png', alt:'images/products/sku01_alt.png',
+    specs:{'材质':'蕾丝+尼龙','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku02: {
-    series:'First Collection', seriesName:'初识', id:'first',
-    name:'初识 · 暗纹蕾丝', tag:'进阶',
-    desc:'暗纹蕾丝bralette，轻透面料上布满若隐若现的暗纹花卉。不是讨好，是试探——试探自己到底可以有多美。',
-    price:'¥39',
-    img:'images/products/sku02_front.png', imgAlt:'images/products/sku02_back.png',
-    link:'https://www.coovee.com/detail42507400.html',
-    specs:{'材质':'暗纹蕾丝','尺码':'S / M / L','颜色':'黑色','风格':'进阶 / 蕾丝','洗涤':'手洗，阴凉处晾干'}
+    series:'初识', seriesLabel:'First Collection', id:'first',
+    name:'初识·暗纹蕾丝吊带套装', tag:'进阶',
+    desc:'暗纹蕾丝吊带睡裙，面料上布满若隐若现的暗纹花卉。自带高级感的引流担当——不是讨好，是试探自己可以有多美。',
+    price:'¥49',
+    main:'images/products/sku02_main.png', alt:'images/products/sku02_alt.png',
+    specs:{'材质':'暗纹蕾丝','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku03: {
-    series:'Core Collection', seriesName:'暗涌', id:'core',
-    name:'暗涌 · 连体衣', tag:'Signature',
-    desc:'几何蕾丝拼接连体衣，剪裁如建筑，身体即宣言。每一个镂空都是对身体线条的重新雕刻。',
+    series:'暗涌', seriesLabel:'Core Collection', id:'core',
+    name:'暗涌·网格镂空连体衣', tag:'Signature',
+    desc:'全身网格镂空高开叉连体衣。剪裁如建筑，身体即宣言——每一个镂空都是对线条的重新雕刻，暗黑美学核心款。',
     price:'¥69',
-    img:'images/products/sku03_front.png', imgAlt:'images/products/sku03_alt.png',
-    link:'https://www.yiwugo.com/product/detail/985051616.html',
-    specs:{'材质':'几何蕾丝+网纱','尺码':'S / M / L','颜色':'黑色','风格':'Signature / 建筑感','洗涤':'手洗，阴凉处晾干'}
+    main:'images/products/sku03_main.png', alt:'images/products/sku03_alt.png',
+    specs:{'材质':'网格+网纱','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku05: {
-    series:'Core Collection', seriesName:'暗涌', id:'core',
-    name:'暗涌 · 对镜', tag:'Signature',
-    desc:'黑色蕾丝吊带睡裙，V领深坠，裙摆轻透。站在镜子前，你看到的不是别人期待的你，是你自己选择成为的你。',
-    price:'¥69',
-    img:'images/products/sku05_front.png', imgAlt:'images/products/sku05_alt.png',
-    link:'https://www.yiwugo.com/product/detail/985051616.html',
-    specs:{'材质':'蕾丝+雪纺','尺码':'S / M / L','颜色':'黑色','风格':'Signature / 对镜','洗涤':'手洗，阴凉处晾干'}
+    series:'暗涌', seriesLabel:'Core Collection', id:'core',
+    name:'夜宴·高开衩露背睡袍', tag:'Signature',
+    desc:'高开衩+深V露背丝绒睡袍，对标高级时装感。当你穿上它走过房间，影子先于你抵达——暗涌系列经典款。',
+    price:'¥89',
+    main:'images/products/sku05_main.png', alt:'images/products/sku05_alt.png',
+    specs:{'材质':'丝绒','尺码':'S / M / L','颜色':'黑色','洗涤':'干洗'}
   },
   sku06: {
-    series:'Core Collection', seriesName:'暗涌', id:'core',
-    name:'暗涌 · 独白', tag:'Signature',
-    desc:'透明蕾丝睡裙，月光下独处的美学。不需要观众，不需要评价。这件裙子只为一个人存在——你。',
-    price:'¥69',
-    img:'images/products/sku06_front.png', imgAlt:'images/products/sku06_alt.png',
-    link:'https://www.yiwugo.com/product/detail/935959840.html',
-    specs:{'材质':'透明蕾丝+网纱','尺码':'S / M / L','颜色':'黑色','风格':'Signature / 独白','洗涤':'手洗，阴凉处晾干'}
+    series:'暗涌', seriesLabel:'Core Collection', id:'core',
+    name:'沉溺·透纱浴袍套装', tag:'Signature',
+    desc:'薄纱面料+配套丁字裤，若隐若现的高级性感。不需要观众，不需要评价——这件只为一个人存在。',
+    price:'¥89',
+    main:'images/products/sku06_main.png', alt:'images/products/sku06_alt.png',
+    specs:{'材质':'薄纱+网纱','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku04: {
-    series:'Power Collection', seriesName:'掌控', id:'power',
-    name:'掌控 · 束缚', tag:'BDSM',
-    desc:'PU皮束缚三件套：手铐、项圈、链条。冷冽皮革与金属的对撞，穿上它，你不再等待被审视——你成为审视本身。',
+    series:'掌控', seriesLabel:'Power Collection', id:'power',
+    name:'掌控·皮质束缚三件套', tag:'Core',
+    desc:'手铐+项圈+脚镣PU皮套装。冷冽皮革与金属的对撞——品牌核心权力符号。穿上它，你不再等待被审视，你成为审视本身。',
     price:'¥89',
-    img:'images/products/sku04_front.png', imgAlt:'images/products/sku04_alt.png',
-    link:'https://www.yiwugo.com/product/detail/976898720.html',
-    specs:{'材质':'PU皮+金属','尺码':'均码','颜色':'黑色','风格':'BDSM / 权力','洗涤':'湿布擦拭'}
+    main:'images/products/sku04_main.png', alt:'images/products/sku04_alt.png',
+    specs:{'材质':'PU皮+金属','尺码':'均码','颜色':'黑色','洗涤':'湿布擦拭'}
   },
   sku07: {
-    series:'Power Collection', seriesName:'掌控', id:'power',
-    name:'掌控 · 绑带', tag:'Harness',
-    desc:'皮革绑带三件套，胸衣、腿环、金属环。Harness不只是束缚，是身体与欲望的精密工程。',
+    series:'掌控', seriesLabel:'Power Collection', id:'power',
+    name:'掌控·蕾丝绑带胸衣腿环套', tag:'Harness',
+    desc:'蕾丝绑带+胸衣+腿环完整三件套。绑带不只是束缚，是身体与欲望的精密工程。掌控系列经典款。',
     price:'¥89',
-    img:'images/products/sku07_front.png', imgAlt:'images/products/sku07_alt.png',
-    link:'https://www.yiwugo.com/product/detail/954425926.html',
-    specs:{'材质':'皮革绑带+金属环','尺码':'均码','颜色':'黑色','风格':'Harness / 绑带','洗涤':'湿布擦拭'}
+    main:'images/products/sku07_main.png', alt:'images/products/sku07_alt.png',
+    specs:{'材质':'蕾丝绑带+金属环','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku08: {
-    series:'Ceremony Collection', seriesName:'仪式', id:'ceremony',
-    name:'仪式 · 睡袍', tag:'Premium',
-    desc:'真丝睡袍，月光般的垂坠感。当黑色丝绸滑过肌肤，你会明白什么是最高级的自我取悦。',
-    price:'¥128',
-    img:'images/products/sku08_front.png', imgAlt:'images/products/sku08_alt.png',
-    link:'https://www.yiwugo.com/product/detail/985051616.html',
-    specs:{'材质':'真丝','尺码':'S / M / L','颜色':'黑色','风格':'Premium / 睡袍','洗涤':'干洗'}
+    series:'仪式', seriesLabel:'Ceremony Collection', id:'ceremony',
+    name:'仪式·冰丝睡裙睡袍套装', tag:'Premium',
+    desc:'冰丝面料睡裙+外搭睡袍套装。日常与性感兼具——当冰丝滑过肌肤，你会明白什么是最高级的日常仪式。',
+    price:'¥89',
+    main:'images/products/sku08_main.png', alt:'images/products/sku08_alt.png',
+    specs:{'材质':'冰丝','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku09: {
-    series:'Ceremony Collection', seriesName:'仪式', id:'ceremony',
-    name:'仪式 · 至臻', tag:'Premium',
-    desc:'顶级蕾丝连体衣，每一寸都是仪式。这不是日常消费品，是你赠予自己的最高级奖赏。',
-    price:'¥158',
-    img:'images/products/sku09_front.png', imgAlt:'images/products/sku09_alt.png',
-    link:'https://www.yiwugo.com/product/detail/985030970.html',
-    specs:{'材质':'顶级蕾丝','尺码':'S / M / L','颜色':'黑色','风格':'Premium / 至臻','洗涤':'手洗，阴凉处晾干'}
+    series:'仪式', seriesLabel:'Ceremony Collection', id:'ceremony',
+    name:'至臻·多片蕾丝绑带连体衣', tag:'Premium',
+    desc:'多片蕾丝拼接+全身绑带系统，复杂工艺形象担当。这不是日常消费品，是你赠予自己的最高级奖赏。',
+    price:'¥128',
+    main:'images/products/sku09_main.png', alt:'images/products/sku09_alt.png',
+    specs:{'材质':'多片蕾丝+绑带','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku10: {
-    series:'Ceremony Collection', seriesName:'仪式', id:'ceremony',
-    name:'仪式 · 礼盒', tag:'Gift Set',
-    desc:'睡袍套装礼盒，黑色包装、金色丝带。拆开的瞬间，你送给自己一份最高级的仪式。',
+    series:'仪式', seriesLabel:'Ceremony Collection', id:'ceremony',
+    name:'至臻·缎面睡袍睡裙礼盒', tag:'Gift Set',
+    desc:'缎面睡袍+睡裙+腰带礼盒装。黑色包装、金色丝带——拆开的瞬间，你送给自己一份最高级的仪式。',
     price:'¥158',
-    img:'images/products/sku10_front.png', imgAlt:'images/products/sku10_alt.png',
-    link:'https://www.yiwugo.com/product/detail/985051616.html',
-    specs:{'材质':'真丝+蕾丝套装','尺码':'S / M / L','颜色':'黑色','风格':'Gift Set / 礼盒','洗涤':'干洗'}
+    main:'images/products/sku10_main.png', alt:'images/products/sku10_alt.png',
+    specs:{'材质':'缎面+蕾丝套装','尺码':'S / M / L','颜色':'黑色','洗涤':'干洗'}
   }
 };
 
@@ -882,8 +834,8 @@ function renderProductCard(id) {
   return `
     <div class="product-card" onclick="openDetail('${id}')">
       <div class="product-image">
-        <img class="primary" src="${p.img}" alt="${p.name}" loading="lazy">
-        <img class="alt-img" src="${p.imgAlt}" alt="${p.name}" loading="lazy">
+        <img class="primary" src="${p.main}" alt="${p.name}" loading="lazy">
+        <img class="alt-img" src="${p.alt}" alt="${p.name} 上身效果" loading="lazy">
         <div class="product-tag">${p.tag}</div>
       </div>
       <div class="product-info">
@@ -900,7 +852,7 @@ function renderProductCard(id) {
 function renderAllGrids() {
   const series = {
     first: ['sku01','sku02'],
-    core: ['sku03','sku05','sku06'],
+    core:  ['sku03','sku05','sku06'],
     power: ['sku04','sku07'],
     ceremony: ['sku08','sku09','sku10']
   };
@@ -929,17 +881,12 @@ function navigate(page) {
     window.scrollTo({top:0});
     window.location.hash = page;
     updateNav('shop');
-  } else if (['shop','lookbook','guide','story'].includes(page)) {
+  } else if (['shop','guide','story'].includes(page)) {
     home.style.display = 'block';
     detail.classList.remove('active');
     updateNav(page);
     window.location.hash = page;
-    const map = {
-      shop: 'first',
-      lookbook: 'lookbook-section',
-      guide: 'guide-section',
-      story: 'story-section'
-    };
+    const map = {shop:'first',guide:'guide-section',story:'story-section'};
     const el = document.getElementById(map[page]);
     if (el) setTimeout(() => el.scrollIntoView({behavior:'smooth'}), 50);
   }
@@ -978,11 +925,11 @@ function openDetail(id) {
 
   document.getElementById('detail-content').innerHTML = `
     <div class="detail-gallery">
-      <img src="${p.img}" alt="${p.name}" loading="lazy">
-      <img src="${p.imgAlt}" alt="${p.name} 细节" loading="lazy">
+      <img src="${p.main}" alt="${p.name}" loading="lazy">
+      <img src="${p.alt}" alt="${p.name} 上身效果" loading="lazy">
     </div>
     <div class="detail-info">
-      <div class="detail-series">${p.series} — ${p.seriesName}</div>
+      <div class="detail-series">${p.seriesLabel} · ${p.series}</div>
       <h1 class="detail-name">${p.name}</h1>
       <div class="detail-price">${p.price}<em>首发价</em></div>
       <p class="detail-desc">${p.desc}</p>
@@ -990,9 +937,25 @@ function openDetail(id) {
         <h4>产品规格</h4>
         <ul>${specsHtml}</ul>
       </div>
+      <div class="detail-specs">
+        <h4>尺码指南</h4>
+        <table class="size-table">
+          <thead><tr><th>尺码</th><th>胸围 (cm)</th><th>腰围 (cm)</th><th>臀围 (cm)</th></tr></thead>
+          <tbody>
+            <tr><td>S</td><td>80-84</td><td>62-66</td><td>86-90</td></tr>
+            <tr><td>M</td><td>84-88</td><td>66-70</td><td>90-94</td></tr>
+            <tr><td>L</td><td>88-92</td><td>70-74</td><td>94-98</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:1rem;font-size:.78rem;color:var(--text3);line-height:1.6">* 均码产品适合 S-M 身材，手工测量存在 1-2cm 误差。</p>
+      </div>
+      <div class="detail-specs">
+        <h4>洗护指南</h4>
+        <p style="font-size:.85rem;color:var(--text2);line-height:1.8">手洗最佳，水温不超过30°C。使用中性洗涤剂，避免漂白。阴凉处自然晾干，不可烘干。真丝及蕾丝产品建议干洗。深色产品首次洗涤可能出现轻微浮色，属正常现象。</p>
+      </div>
       <div class="detail-actions">
-        <a href="${p.link}" target="_blank" class="detail-primary">查看详情</a>
-        <button class="detail-secondary" onclick="alert('即将上架，敬请期待')">到货提醒</button>
+        <button class="detail-primary" onclick="alert('即将上架，敬请期待')">即将上架</button>
+        <button class="detail-secondary" onclick="alert('到货后将第一时间通知您')">到货提醒</button>
       </div>
     </div>`;
 }
@@ -1029,89 +992,64 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAllGrids();
 
   // Nav hide/show on scroll
-  let lastScroll = 0;
-  ScrollTrigger.create({
-    start:'top -80',
-    onUpdate:({direction}) => {
-      const nav = document.getElementById('nav');
-      if (direction === 1 && window.scrollY > 300) nav.classList.add('hidden');
-      else nav.classList.remove('hidden');
-    }
-  });
+  let lastScrollY = 0;
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    const sy = window.scrollY;
+    if (sy > 300 && sy > lastScrollY) nav.classList.add('hidden');
+    else if (sy < lastScrollY) nav.classList.remove('hidden');
+    lastScrollY = sy;
+  }, {passive:true});
 
   // Hero text stagger
   gsap.to('.anim-up', {
     y:0, opacity:1, duration:.9,
-    stagger:.15,
-    ease:'power3.out',
-    scrollTrigger:{
-      trigger:'.hero',
-      start:'top 80%'
-    }
+    stagger:.15, ease:'power3.out',
+    scrollTrigger:{trigger:'.hero', start:'top 80%'}
   });
 
   // Series bento entrance
   gsap.from('.bento-card', {
     y:60, opacity:0, duration:.8,
-    stagger:.12,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'.series-bento',
-      start:'top 80%'
-    }
+    stagger:.12, ease:'power2.out',
+    scrollTrigger:{trigger:'.series-bento', start:'top 80%'}
   });
 
   // Product cards stagger
   document.querySelectorAll('.product-grid').forEach(grid => {
     gsap.from(grid.children, {
       y:40, opacity:0, duration:.6,
-      stagger:.08,
-      ease:'power2.out',
-      scrollTrigger:{
-        trigger:grid,
-        start:'top 85%'
-      }
+      stagger:.08, ease:'power2.out',
+      scrollTrigger:{trigger:grid, start:'top 85%'}
     });
-  });
-
-  // Lookbook stagger
-  gsap.from('.lookbook-item', {
-    y:50, opacity:0, duration:.7,
-    stagger:.1,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'.lookbook-grid',
-      start:'top 85%'
-    }
   });
 
   // Guide cards
   gsap.from('.guide-card', {
     y:40, opacity:0, duration:.6,
-    stagger:.1,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'.guide-grid',
-      start:'top 85%'
-    }
+    stagger:.1, ease:'power2.out',
+    scrollTrigger:{trigger:'.guide-grid', start:'top 85%'}
   });
 
   // Brand story
   gsap.from('.story-text h2, .story-text .story-quote, .story-text p', {
     y:30, opacity:0, duration:.7,
-    stagger:.12,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'.brand-story',
-      start:'top 80%'
-    }
+    stagger:.12, ease:'power2.out',
+    scrollTrigger:{trigger:'.brand-story', start:'top 80%'}
+  });
+
+  // Brand manifesto
+  gsap.from('.anim-manifesto', {
+    y:40, opacity:0, duration:.9,
+    stagger:.2, ease:'power3.out',
+    scrollTrigger:{trigger:'.manifesto', start:'top 70%'}
   });
 
   // Handle initial hash
   const initHash = window.location.hash.replace('#','');
   if (initHash && initHash.startsWith('product/')) {
     openDetail(initHash.replace('product/',''));
-  } else if (initHash && ['shop','lookbook','guide','story'].includes(initHash)) {
+  } else if (initHash && ['shop','guide','story'].includes(initHash)) {
     setTimeout(() => navigate(initHash), 100);
   }
 });
