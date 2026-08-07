@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BLACK+SEIZE 暗驭 | 你穿在身上的权力</title>
+<style>
+/* ============================================
+   CSS RESET & VARIABLES
+   ============================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050505;
+  --surface:#0c0c0c;
+  --surface2:#111;
+  --border:#1a1a1a;
+  --text:#f0f0f0;
+  --text2:#999;
+  --text3:#666;
+  --gold:#c9a84c;
+  --gold-dim:#8a7030;
+  --red:#8b1a1a;
+  --serif:'Times New Roman', 'Songti SC', 'STSong', serif;
+  --sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --max-w:1400px;
+  --gap:24px;
+  --section:clamp(60px,10vw,120px);
+  --nav-h:64px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+ul{list-style:none}
+
+/* ============================================
+   FILM GRAIN OVERLAY
+   ============================================ */
+.film-grain{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;
+  opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--text3);border-radius:0}
+::-webkit-scrollbar-thumb:hover{background:var(--text2)}
+
+/* ============================================
+   CUSTOM SELECTION
+   ============================================ */
+::selection{background:var(--gold);color:var(--bg)}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:var(--nav-h);
+  background:rgba(5,5,5,.92);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.nav.hidden{transform:translateY(-100%)}
+.nav-inner{
+  width:100%;max-width:var(--max-w);
+  padding:0 var(--section);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{
+  font-family:var(--serif);
+  font-size:1.25rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  color:var(--text);
+}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2.5rem;align-items:center}
+.nav-links a{
+  font-size:.8rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--text2);
+  transition:color .3s;
+  position:relative;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-links a.active::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  height:1px;background:var(--gold);
+}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;padding:4px}
+.nav-hamburger span{
+  display:block;width:22px;height:1.5px;background:var(--text);
+  transition:transform .3s,opacity .3s;
+}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mobile-menu{
+  display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;
+  background:var(--bg);z-index:99;padding:2rem var(--section);
+  flex-direction:column;gap:1.5rem;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{
+  font-size:1.1rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text2);padding:.5rem 0;border-bottom:1px solid var(--border);
+  transition:color .3s;
+}
+.mobile-menu a:hover,.mobile-menu a.active{color:var(--text)}
+
+/* ============================================
+   SECTION BASE
+   ============================================ */
+.section{padding:var(--section);max-width:var(--max-w);margin:0 auto}
+.section-label{
+  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.75rem;
+}
+.section-title{
+  font-family:var(--serif);
+  font-size:clamp(1.75rem,4vw,2.75rem);
+  font-weight:400;
+  line-height:1.18;
+  letter-spacing:.02em;
+  margin-bottom:1rem;
+  color:var(--text);
+}
+.section-sub{
+  font-size:1rem;
+  color:var(--text2);
+  max-width:520px;
+  line-height:1.7;
+  margin-bottom:2.5rem;
+}
+
+/* ============================================
+   HERO — Editorial Split
+   ============================================ */
+.hero{
+  min-height:100vh;min-height:100dvh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding-top:var(--nav-h);
+  overflow:hidden;
+}
+.hero-text{
+  padding:clamp(2rem,6vw,5rem);
+  display:flex;flex-direction:column;justify-content:center;
+  z-index:2;
+}
+.hero-label{
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;
+  opacity:0;
+}
+.hero-title{
+  font-family:var(--serif);
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  font-weight:400;
+  line-height:1.08;
+  letter-spacing:.01em;
+  margin-bottom:1.5rem;
+  opacity:0;
+}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-desc{
+  font-size:1rem;
+  color:var(--text2);
+  line-height:1.8;
+  max-width:420px;
+  margin-bottom:2.5rem;
+  opacity:0;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:.75rem;
+  font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text);
+  border-bottom:1px solid var(--gold);
+  padding-bottom:.5rem;
+  transition:gap .4s cubic-bezier(.22,1,.36,1),color .3s;
+  opacity:0;
+}
+.hero-cta:hover{gap:1.25rem;color:var(--gold)}
+.hero-image{
+  position:relative;
+  height:100%;min-height:100vh;min-height:100dvh;
+  overflow:hidden;
+}
+.hero-image img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.85) contrast(1.05);
+}
+.hero-scroll{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  z-index:3;
+}
+.hero-scroll span{
+  font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);
+}
+.hero-scroll-line{
+  width:1px;height:40px;background:linear-gradient(to bottom,var(--gold-dim),transparent);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse{
+  0%,100%{opacity:.3;transform:scaleY(1)}
+  50%{opacity:1;transform:scaleY(1.3)}
+}
+
+/* ============================================
+   SERIES BENTO GRID
+   ============================================ */
+.series-bento{
+  display:grid;
+  grid-template-columns:1.6fr 1fr;
+  grid-template-rows:auto auto;
+  gap:var(--gap);
+}
+.bento-card{
+  position:relative;overflow:hidden;cursor:pointer;
+  background:var(--surface);
+  min-height:400px;
+  transition:transform .5s cubic-bezier(.22,1,.36,1);
+}
+.bento-card:hover{transform:scale(.98)}
+.bento-card.large{grid-row:span 2}
+.bento-card img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.7) contrast(1.1);
+  transition:filter .6s,transform .6s cubic-bezier(.22,1,.36,1);
+}
+.bento-card:hover img{filter:brightness(.85) contrast(1.05);transform:scale(1.03)}
+.bento-card .bento-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:2.5rem;
+  background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
+}
+.bento-card .bento-label{
+  font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem;
+}
+.bento-card .bento-title{
+  font-family:var(--serif);
+  font-size:1.5rem;color:var(--text);
+  margin-bottom:.35rem;
+}
+.bento-card .bento-count{
+  font-size:.8rem;color:var(--text2);
+}
+
+/* ============================================
+   PRODUCT GRID
+   ============================================ */
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:var(--gap);
+}
+.product-card{
+  cursor:pointer;
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.product-card:hover{transform:translateY(-4px)}
+.product-image{
+  position:relative;overflow:hidden;
+  aspect-ratio:3/4;
+  background:var(--surface);
+  margin-bottom:1rem;
+}
+.product-image img{
+  width:100%;height:100%;object-fit:cover;
+  transition:opacity .5s,transform .6s cubic-bezier(.22,1,.36,1);
+}
+.product-image img.alt-img{
+  position:absolute;top:0;left:0;
+  opacity:0;
+}
+.product-card:hover .product-image img.primary{opacity:0}
+.product-card:hover .product-image img.alt-img{opacity:1}
+.product-card:hover .product-image img{transform:scale(1.04)}
+.product-tag{
+  position:absolute;top:1rem;left:1rem;
+  font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(0,0,0,.75);color:var(--gold);
+  padding:.3rem .7rem;
+  z-index:1;
+}
+.product-info{padding:0 .25rem}
+.product-name{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  margin-bottom:.35rem;
+  color:var(--text);
+}
+.product-desc{
+  font-size:.82rem;color:var(--text2);
+  line-height:1.6;margin-bottom:.5rem;
+}
+.product-meta{display:flex;align-items:center;gap:1rem}
+.product-price{font-size:.95rem;font-weight:600;color:var(--text)}
+
+/* ============================================
+   DETAIL PAGE
+   ============================================ */
+.detail-page{
+  display:none;min-height:100vh;min-height:100dvh;
+  padding-top:var(--nav-h);
+}
+.detail-page.active{display:block}
+.detail-back{
+  position:sticky;top:var(--nav-h);z-index:50;
+  padding:1.25rem var(--section);
+  background:rgba(5,5,5,.9);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  display:flex;align-items:center;gap:.75rem;
+  font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text2);
+  cursor:pointer;transition:color .3s;
+  border-bottom:1px solid var(--border);
+}
+.detail-back:hover{color:var(--text)}
+.detail-back::before{content:'←';font-size:1rem}
+.detail-content{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:calc(100vh - var(--nav-h) - 54px);
+}
+.detail-gallery{padding:var(--gap)}
+.detail-gallery img{
+  width:100%;margin-bottom:var(--gap);
+  background:var(--surface);
+}
+.detail-info{
+  padding:clamp(2rem,4vw,4rem);display:flex;flex-direction:column;justify-content:center;
+  position:sticky;top:calc(var(--nav-h) + 54px);
+  align-self:start;height:fit-content;
+}
+.detail-series{
+  font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.75rem;
+}
+.detail-name{
+  font-family:var(--serif);
+  font-size:clamp(2rem,3.5vw,3rem);
+  font-weight:400;line-height:1.15;
+  margin-bottom:1rem;
+}
+.detail-price{font-size:1.5rem;font-weight:600;margin-bottom:1.5rem}
+.detail-price em{
+  font-size:.8rem;font-weight:400;color:var(--text2);
+  font-style:normal;margin-left:.5rem;
+}
+.detail-desc{
+  font-size:.95rem;color:var(--text2);
+  line-height:1.8;margin-bottom:2rem;
+  max-width:420px;
+}
+.detail-specs{margin-bottom:2rem}
+.detail-specs h4{
+  font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:.75rem;
+}
+.detail-specs ul{display:flex;flex-direction:column;gap:.5rem}
+.detail-specs li{
+  display:flex;justify-content:space-between;
+  padding:.6rem 0;border-bottom:1px solid var(--border);
+  font-size:.85rem;
+}
+.detail-specs li span:first-child{color:var(--text2)}
+.detail-specs li span:last-child{color:var(--text);font-weight:500}
+.detail-actions{display:flex;gap:1rem}
+.detail-actions a{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.85rem 2rem;
+  font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
+  transition:all .3s;
+}
+.detail-primary{
+  background:var(--gold);color:var(--bg);font-weight:600;
+}
+.detail-primary:hover{background:var(--text);color:var(--bg)}
+.detail-secondary{
+  border:1px solid var(--border);color:var(--text2);
+}
+.detail-secondary:hover{border-color:var(--text2);color:var(--text)}
+
+/* ============================================
+   BRAND STORY
+   ============================================ */
+.brand-story{
+  background:var(--surface);
+  padding:var(--section) 0;
+}
+.story-inner{
+  max-width:var(--max-w);margin:0 auto;padding:0 var(--section);
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+}
+.story-text h2{
+  font-family:var(--serif);
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:400;line-height:1.15;
+  margin-bottom:2rem;
+}
+.story-text .story-quote{
+  font-family:var(--serif);font-style:italic;
+  font-size:1.35rem;line-height:1.6;color:var(--gold);
+  margin-bottom:1.5rem;
+}
+.story-text p{
+  font-size:.95rem;color:var(--text2);
+  line-height:1.8;margin-bottom:1.25rem;
+  max-width:460px;
+}
+.story-image img{width:100%;filter:brightness(.8) contrast(1.1)}
+
+/* ============================================
+   LOOKBOOK
+   ============================================ */
+.lookbook-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:var(--gap);
+}
+.lookbook-item{position:relative;overflow:hidden;cursor:pointer}
+.lookbook-item.tall{grid-row:span 2}
+.lookbook-item img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.7) contrast(1.05);
+  transition:filter .5s,transform .6s cubic-bezier(.22,1,.36,1);
+}
+.lookbook-item:hover img{filter:brightness(.9);transform:scale(1.04)}
+.lookbook-caption{
+  position:absolute;bottom:1.5rem;left:1.5rem;
+  font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text);background:rgba(0,0,0,.6);
+  padding:.4rem .9rem;
+}
+
+/* ============================================
+   STYLE GUIDE
+   ============================================ */
+.guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.guide-card{
+  background:var(--surface);padding:2rem;
+  transition:transform .3s;
+}
+.guide-card:hover{transform:translateY(-4px)}
+.guide-icon{
+  font-size:2rem;margin-bottom:1rem;color:var(--gold);
+}
+.guide-card h3{
+  font-family:var(--serif);
+  font-size:1.15rem;margin-bottom:.75rem;color:var(--text);
+}
+.guide-card p{
+  font-size:.85rem;color:var(--text2);
+  line-height:1.7;
+}
+
+/* ============================================
+   SIZE GUIDE TABLE
+   ============================================ */
+.size-table{
+  width:100%;border-collapse:collapse;margin-top:2rem;
+}
+.size-table th{
+  font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--gold);padding:1rem;text-align:left;
+  border-bottom:1px solid var(--border);
+}
+.size-table td{
+  font-size:.85rem;color:var(--text2);padding:1rem;
+  border-bottom:1px solid var(--border);
+}
+.size-table tr:hover td{color:var(--text);background:var(--surface)}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer{
+  border-top:1px solid var(--border);padding:3rem var(--section);
+  max-width:var(--max-w);margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem;
+}
+.footer-brand{
+  font-family:var(--serif);
+  font-size:1.1rem;letter-spacing:.06em;
+  color:var(--text);
+  margin-bottom:1rem;
+}
+.footer p{font-size:.8rem;color:var(--text3);line-height:1.7}
+.footer h4{
+  font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text2);margin-bottom:1rem;
+}
+.footer a{font-size:.82rem;color:var(--text3);display:block;margin-bottom:.5rem;transition:color .3s}
+.footer a:hover{color:var(--text)}
+.footer-bottom{
+  max-width:var(--max-w);margin:0 auto;padding:1.5rem var(--section);
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;
+  font-size:.75rem;color:var(--text3);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width:1024px){
+  .hero{grid-template-columns:1fr}
+  .hero-text{order:1;padding:3rem var(--section) 2rem}
+  .hero-image{order:0;min-height:55vh}
+  .hero-image img{min-height:55vh}
+  .series-bento{grid-template-columns:1fr 1fr}
+  .bento-card.large{grid-row:span 1}
+  .story-inner{grid-template-columns:1fr;gap:2rem}
+  .detail-content{grid-template-columns:1fr}
+  .detail-info{position:static;padding:2rem}
+  .lookbook-grid{grid-template-columns:1fr 1fr}
+  .lookbook-item.tall{grid-row:span 1}
+  .guide-grid{grid-template-columns:1fr 1fr}
+  .footer{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:768px){
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  .section-title{font-size:1.5rem}
+  .hero-title{font-size:2rem}
+  .series-bento{grid-template-columns:1fr}
+  .product-grid{grid-template-columns:1fr 1fr}
+  .lookbook-grid{grid-template-columns:1fr}
+  .guide-grid{grid-template-columns:1fr}
+  .detail-actions{flex-direction:column}
+  .footer{grid-template-columns:1fr;gap:2rem}
+}
+
+@media (max-width:480px){
+  .product-grid{grid-template-columns:1fr}
+  .detail-info{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="film-grain"></div>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo" onclick="navigate('home')">BLACK<span>+</span>SEIZE</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="active" data-nav="home">首页</a>
+      <a href="#shop" data-nav="shop">系列</a>
+      <a href="#lookbook" data-nav="lookbook">Lookbook</a>
+      <a href="#guide" data-nav="guide">穿搭指南</a>
+      <a href="#story" data-nav="story">品牌故事</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="navigate('home');closeMenu()">首页</a>
+  <a href="#shop" onclick="navigate('shop');closeMenu()">系列</a>
+  <a href="#lookbook" onclick="navigate('lookbook');closeMenu()">Lookbook</a>
+  <a href="#guide" onclick="navigate('guide');closeMenu()">穿搭指南</a>
+  <a href="#story" onclick="navigate('story');closeMenu()">品牌故事</a>
+</div>
+
+<!-- ============================================
+     MAIN CONTENT
+     ============================================ -->
+<main id="main">
+
+<!-- HOME PAGE -->
+<div id="page-home">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-text">
+      <div class="hero-label anim-up">Black + Seize 暗驭</div>
+      <h1 class="hero-title anim-up">你穿在身上<br>的<em>权力</em></h1>
+      <p class="hero-desc anim-up">不是取悦别人的道具，是自我确认的仪式。每一件黑色蕾丝、每一寸剪裁，都是你对身体的终极掌控。</p>
+      <a href="#shop" class="hero-cta anim-up" onclick="navigate('shop')">探索系列</a>
+    </div>
+    <div class="hero-image">
+      <img src="images/hero/hero.png" alt="BLACK+SEIZE 暗驭 Hero">
+      <div class="hero-scroll">
+        <span>Scroll</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERIES OVERVIEW — BENTO -->
+  <section class="section">
+    <div class="section-label">The Collections</div>
+    <h2 class="section-title">四个系列，四种权力叙事</h2>
+    <p class="section-sub">从羞怯到自信，从柔软到锋利——每一件都是你某一面的外化。</p>
+    <div class="series-bento">
+      <a class="bento-card large" href="#first" onclick="scrollToSeries('first')">
+        <img src="images/series/first.png" alt="初识系列">
+        <div class="bento-overlay">
+          <div class="bento-label">First Collection</div>
+          <div class="bento-title">初识</div>
+          <div class="bento-count">2 款 · ¥29.9 起</div>
+        </div>
+      </a>
+      <a class="bento-card" href="#core" onclick="scrollToSeries('core')">
+        <img src="images/series/core.png" alt="暗涌系列">
+        <div class="bento-overlay">
+          <div class="bento-label">Core Collection</div>
+          <div class="bento-title">暗涌</div>
+          <div class="bento-count">3 款 · ¥69</div>
+        </div>
+      </a>
+      <a class="bento-card" href="#power" onclick="scrollToSeries('power')">
+        <img src="images/series/power.png" alt="掌控系列">
+        <div class="bento-overlay">
+          <div class="bento-label">Power Collection</div>
+          <div class="bento-title">掌控</div>
+          <div class="bento-count">2 款 · ¥89</div>
+        </div>
+      </a>
+    </div>
+    <a class="bento-card" href="#ceremony" onclick="scrollToSeries('ceremony')" style="display:block;margin-top:var(--gap);min-height:350px">
+      <img src="images/series/ceremony.png" alt="仪式系列" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7) contrast(1.1)">
+      <div class="bento-overlay">
+        <div class="bento-label">Ceremony Collection</div>
+        <div class="bento-title">仪式</div>
+        <div class="bento-count">3 款 · ¥128 起</div>
+      </div>
+    </a>
+  </section>
+
+  <!-- FIRST COLLECTION -->
+  <section class="section" id="first">
+    <div class="section-label">First Collection</div>
+    <h2 class="section-title">初识 · 试探之美</h2>
+    <p class="section-sub">你的第一件暗驭。入口柔软，但一旦穿上——你开始认识一个从未见过的自己。</p>
+    <div class="product-grid" id="grid-first"></div>
+  </section>
+
+  <!-- CORE COLLECTION -->
+  <section class="section" id="core">
+    <div class="section-label">Core Collection</div>
+    <h2 class="section-title">暗涌 · 身体即宣言</h2>
+    <p class="section-sub">不再试探，不再犹豫。暗涌是水面下的力量——剪裁如建筑，蕾丝如宣言。</p>
+    <div class="product-grid" id="grid-core"></div>
+  </section>
+
+  <!-- POWER COLLECTION -->
+  <section class="section" id="power">
+    <div class="section-label">Power Collection</div>
+    <h2 class="section-title">掌控 · 你即规则</h2>
+    <p class="section-sub">皮革、金属、束缚——不是被控制，是你选择交出什么，收走什么。权力在你手中。</p>
+    <div class="product-grid" id="grid-power"></div>
+  </section>
+
+  <!-- CEREMONY COLLECTION -->
+  <section class="section" id="ceremony">
+    <div class="section-label">Ceremony Collection</div>
+    <h2 class="section-title">仪式 · 最高级的自我奖赏</h2>
+    <p class="section-sub">真丝的垂坠、顶级蕾丝的触感、礼盒打开的瞬间——这是你给自己的仪式。</p>
+    <div class="product-grid" id="grid-ceremony"></div>
+  </section>
+
+  <!-- LOOKBOOK -->
+  <section class="section" id="lookbook-section">
+    <div class="section-label">Editorial</div>
+    <h2 class="section-title">Lookbook</h2>
+    <p class="section-sub">暗驭不只穿在身上，更是一种生活方式的切片——在清晨的公寓、黄昏的露台、深夜的展厅。</p>
+    <div class="lookbook-grid">
+      <div class="lookbook-item tall"><img src="images/lookbook/scene1.png" alt="Lookbook 1"><div class="lookbook-caption">Morning Light</div></div>
+      <div class="lookbook-item"><img src="images/lookbook/scene2.png" alt="Lookbook 2"><div class="lookbook-caption">Gallery Stroll</div></div>
+      <div class="lookbook-item"><img src="images/lookbook/scene3.png" alt="Lookbook 3"><div class="lookbook-caption">Quiet Night</div></div>
+      <div class="lookbook-item"><img src="images/lookbook/scene4.png" alt="Lookbook 4"><div class="lookbook-caption">City Dusk</div></div>
+    </div>
+  </section>
+
+  <!-- BRAND STORY -->
+  <section class="brand-story" id="story-section">
+    <div class="story-inner">
+      <div class="story-text">
+        <h2>黑色不是颜色缺失<br>是所有颜色的总和</h2>
+        <div class="story-quote">"穿上它，你不再是别人眼中的谁——你是自己选择成为的那个人。"</div>
+        <p>BLACK+SEIZE 暗驭诞生于一个简单的信念：情趣内衣不该是讨好别人的工具。它是自我取悦的仪式，是身体与欲望之间的私密对话。</p>
+        <p>我们把黑色作为权力符号——不是因为它在时尚界的经典地位，而是因为黑色吸收一切、包容一切、定义一切。正如你自己的身体，不需要任何解释。</p>
+      </div>
+      <div class="story-image"><img src="images/hero/hero.png" alt="品牌故事"></div>
+    </div>
+  </section>
+
+  <!-- STYLE GUIDE PREVIEW -->
+  <section class="section" id="guide-section">
+    <div class="section-label">Style Guide</div>
+    <h2 class="section-title">穿搭指南</h2>
+    <p class="section-sub">穿暗驭不是为了别人看到——是为了你自己感受到。但如果你想知道怎么穿、怎么搭，这里有答案。</p>
+    <div class="guide-grid">
+      <div class="guide-card">
+        <div class="guide-icon">🌙</div>
+        <h3>独处仪式</h3>
+        <p>睡袍 + 真丝眼罩，点一支香薰蜡烛。这不是"穿给自己看"——这是今晚最重要的一场约会。推荐：仪式系列睡袍。</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-icon">🖤</div>
+        <h3>惊喜之夜</h3>
+        <p>在外套下藏一件暗涌连体衣。不需要额外准备——脱下外套的瞬间，就是今晚的转折点。</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-icon">✨</div>
+        <h3>自信日常</h3>
+        <p>Bralette 可以穿在西装里。没人知道你的秘密，但你知道——这种安静的力量，比任何宣言都强。推荐：初识系列暗纹蕾丝。</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /#page-home -->
+
+<!-- PRODUCT DETAIL PAGES -->
+<div id="page-detail" class="detail-page">
+  <div class="detail-back" onclick="navigate('home')">返回</div>
+  <div class="detail-content" id="detail-content"></div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer">
+    <div>
+      <div class="footer-brand">BLACK+SEIZE 暗驭</div>
+      <p>黑色权力符号 · 自我取悦叙事<br>你穿在身上的权力</p>
+    </div>
+    <div>
+      <h4>系列</h4>
+      <a href="#first" onclick="scrollToSeries('first')">初识 First Collection</a>
+      <a href="#core" onclick="scrollToSeries('core')">暗涌 Core Collection</a>
+      <a href="#power" onclick="scrollToSeries('power')">掌控 Power Collection</a>
+      <a href="#ceremony" onclick="scrollToSeries('ceremony')">仪式 Ceremony Collection</a>
+    </div>
+    <div>
+      <h4>更多</h4>
+      <a href="#lookbook" onclick="navigate('home');setTimeout(()=>document.getElementById('lookbook-section').scrollIntoView(),100)">Lookbook</a>
+      <a href="#guide" onclick="navigate('home');setTimeout(()=>document.getElementById('guide-section').scrollIntoView(),100)">穿搭指南</a>
+      <a href="#story" onclick="navigate('home');setTimeout(()=>document.getElementById('story-section').scrollIntoView(),100)">品牌故事</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 BLACK+SEIZE 暗驭</span>
+    <span>你穿在身上的权力</span>
+  </div>
+</footer>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+/* ============================================
+   PRODUCT DATA
+   ============================================ */
+const products = {
+  sku01: {
+    series:'First Collection', seriesName:'初识', id:'first',
+    name:'初识 · 吊带袜', tag:'入门款',
+    desc:'黑色蕾丝吊带袜套装，你的第一件暗驭。细肩带设计，蕾丝边缘若隐若现，让入门级的试探也充满仪式感。',
+    price:'¥29.9',
+    img:'images/products/sku01_front.png', imgAlt:'images/products/sku01_alt.png',
+    link:'https://www.coovee.com/detail42507400.html',
+    specs:{'材质':'蕾丝+尼龙','尺码':'S / M / L','颜色':'黑色','风格':'入门 / 试探','洗涤':'手洗，阴凉处晾干'}
+  },
+  sku02: {
+    series:'First Collection', seriesName:'初识', id:'first',
+    name:'初识 · 暗纹蕾丝', tag:'进阶',
+    desc:'暗纹蕾丝bralette，轻透面料上布满若隐若现的暗纹花卉。不是讨好，是试探——试探自己到底可以有多美。',
+    price:'¥39',
+    img:'images/products/sku02_front.png', imgAlt:'images/products/sku02_back.png',
+    link:'https://www.coovee.com/detail42507400.html',
+    specs:{'材质':'暗纹蕾丝','尺码':'S / M / L','颜色':'黑色','风格':'进阶 / 蕾丝','洗涤':'手洗，阴凉处晾干'}
+  },
+  sku03: {
+    series:'Core Collection', seriesName:'暗涌', id:'core',
+    name:'暗涌 · 连体衣', tag:'Signature',
+    desc:'几何蕾丝拼接连体衣，剪裁如建筑，身体即宣言。每一个镂空都是对身体线条的重新雕刻。',
+    price:'¥69',
+    img:'images/products/sku03_front.png', imgAlt:'images/products/sku03_alt.png',
+    link:'https://www.yiwugo.com/product/detail/985051616.html',
+    specs:{'材质':'几何蕾丝+网纱','尺码':'S / M / L','颜色':'黑色','风格':'Signature / 建筑感','洗涤':'手洗，阴凉处晾干'}
+  },
+  sku05: {
+    series:'Core Collection', seriesName:'暗涌', id:'core',
+    name:'暗涌 · 对镜', tag:'Signature',
+    desc:'黑色蕾丝吊带睡裙，V领深坠，裙摆轻透。站在镜子前，你看到的不是别人期待的你，是你自己选择成为的你。',
+    price:'¥69',
+    img:'images/products/sku05_front.png', imgAlt:'images/products/sku05_alt.png',
+    link:'https://www.yiwugo.com/product/detail/985051616.html',
+    specs:{'材质':'蕾丝+雪纺','尺码':'S / M / L','颜色':'黑色','风格':'Signature / 对镜','洗涤':'手洗，阴凉处晾干'}
+  },
+  sku06: {
+    series:'Core Collection', seriesName:'暗涌', id:'core',
+    name:'暗涌 · 独白', tag:'Signature',
+    desc:'透明蕾丝睡裙，月光下独处的美学。不需要观众，不需要评价。这件裙子只为一个人存在——你。',
+    price:'¥69',
+    img:'images/products/sku06_front.png', imgAlt:'images/products/sku06_alt.png',
+    link:'https://www.yiwugo.com/product/detail/935959840.html',
+    specs:{'材质':'透明蕾丝+网纱','尺码':'S / M / L','颜色':'黑色','风格':'Signature / 独白','洗涤':'手洗，阴凉处晾干'}
+  },
+  sku04: {
+    series:'Power Collection', seriesName:'掌控', id:'power',
+    name:'掌控 · 束缚', tag:'BDSM',
+    desc:'PU皮束缚三件套：手铐、项圈、链条。冷冽皮革与金属的对撞，穿上它，你不再等待被审视——你成为审视本身。',
+    price:'¥89',
+    img:'images/products/sku04_front.png', imgAlt:'images/products/sku04_alt.png',
+    link:'https://www.yiwugo.com/product/detail/976898720.html',
+    specs:{'材质':'PU皮+金属','尺码':'均码','颜色':'黑色','风格':'BDSM / 权力','洗涤':'湿布擦拭'}
+  },
+  sku07: {
+    series:'Power Collection', seriesName:'掌控', id:'power',
+    name:'掌控 · 绑带', tag:'Harness',
+    desc:'皮革绑带三件套，胸衣、腿环、金属环。Harness不只是束缚，是身体与欲望的精密工程。',
+    price:'¥89',
+    img:'images/products/sku07_front.png', imgAlt:'images/products/sku07_alt.png',
+    link:'https://www.yiwugo.com/product/detail/954425926.html',
+    specs:{'材质':'皮革绑带+金属环','尺码':'均码','颜色':'黑色','风格':'Harness / 绑带','洗涤':'湿布擦拭'}
+  },
+  sku08: {
+    series:'Ceremony Collection', seriesName:'仪式', id:'ceremony',
+    name:'仪式 · 睡袍', tag:'Premium',
+    desc:'真丝睡袍，月光般的垂坠感。当黑色丝绸滑过肌肤，你会明白什么是最高级的自我取悦。',
+    price:'¥128',
+    img:'images/products/sku08_front.png', imgAlt:'images/products/sku08_alt.png',
+    link:'https://www.yiwugo.com/product/detail/985051616.html',
+    specs:{'材质':'真丝','尺码':'S / M / L','颜色':'黑色','风格':'Premium / 睡袍','洗涤':'干洗'}
+  },
+  sku09: {
+    series:'Ceremony Collection', seriesName:'仪式', id:'ceremony',
+    name:'仪式 · 至臻', tag:'Premium',
+    desc:'顶级蕾丝连体衣，每一寸都是仪式。这不是日常消费品，是你赠予自己的最高级奖赏。',
+    price:'¥158',
+    img:'images/products/sku09_front.png', imgAlt:'images/products/sku09_alt.png',
+    link:'https://www.yiwugo.com/product/detail/985030970.html',
+    specs:{'材质':'顶级蕾丝','尺码':'S / M / L','颜色':'黑色','风格':'Premium / 至臻','洗涤':'手洗，阴凉处晾干'}
+  },
+  sku10: {
+    series:'Ceremony Collection', seriesName:'仪式', id:'ceremony',
+    name:'仪式 · 礼盒', tag:'Gift Set',
+    desc:'睡袍套装礼盒，黑色包装、金色丝带。拆开的瞬间，你送给自己一份最高级的仪式。',
+    price:'¥158',
+    img:'images/products/sku10_front.png', imgAlt:'images/products/sku10_alt.png',
+    link:'https://www.yiwugo.com/product/detail/985051616.html',
+    specs:{'材质':'真丝+蕾丝套装','尺码':'S / M / L','颜色':'黑色','风格':'Gift Set / 礼盒','洗涤':'干洗'}
+  }
+};
+
+/* ============================================
+   PRODUCT CARD RENDER
+   ============================================ */
+function renderProductCard(id) {
+  const p = products[id];
+  return `
+    <div class="product-card" onclick="openDetail('${id}')">
+      <div class="product-image">
+        <img class="primary" src="${p.img}" alt="${p.name}" loading="lazy">
+        <img class="alt-img" src="${p.imgAlt}" alt="${p.name}" loading="lazy">
+        <div class="product-tag">${p.tag}</div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc.substring(0,40)}…</div>
+        <div class="product-meta"><div class="product-price">${p.price}</div></div>
+      </div>
+    </div>`;
+}
+
+/* ============================================
+   RENDER ALL PRODUCT GRIDS
+   ============================================ */
+function renderAllGrids() {
+  const series = {
+    first: ['sku01','sku02'],
+    core: ['sku03','sku05','sku06'],
+    power: ['sku04','sku07'],
+    ceremony: ['sku08','sku09','sku10']
+  };
+  for (const [s, ids] of Object.entries(series)) {
+    const grid = document.getElementById('grid-'+s);
+    if (grid) grid.innerHTML = ids.map(renderProductCard).join('');
+  }
+}
+
+/* ============================================
+   ROUTING
+   ============================================ */
+function navigate(page) {
+  const home = document.getElementById('page-home');
+  const detail = document.getElementById('page-detail');
+
+  if (page === 'home') {
+    home.style.display = 'block';
+    detail.classList.remove('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    window.location.hash = 'home';
+    updateNav('home');
+  } else if (page.startsWith('product/')) {
+    home.style.display = 'none';
+    detail.classList.add('active');
+    window.scrollTo({top:0});
+    window.location.hash = page;
+    updateNav('shop');
+  } else if (['shop','lookbook','guide','story'].includes(page)) {
+    home.style.display = 'block';
+    detail.classList.remove('active');
+    updateNav(page);
+    window.location.hash = page;
+    const map = {
+      shop: 'first',
+      lookbook: 'lookbook-section',
+      guide: 'guide-section',
+      story: 'story-section'
+    };
+    const el = document.getElementById(map[page]);
+    if (el) setTimeout(() => el.scrollIntoView({behavior:'smooth'}), 50);
+  }
+}
+
+function updateNav(active) {
+  document.querySelectorAll('[data-nav]').forEach(a => {
+    a.classList.toggle('active', a.dataset.nav === active);
+  });
+  document.querySelectorAll('.mobile-menu a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#'+active);
+  });
+}
+
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.replace('#','');
+  if (hash.startsWith('product/')) {
+    openDetail(hash.replace('product/',''));
+  } else if (hash) {
+    navigate(hash);
+  }
+});
+
+/* ============================================
+   PRODUCT DETAIL
+   ============================================ */
+function openDetail(id) {
+  const p = products[id];
+  if (!p) return;
+  navigate('product/'+id);
+
+  let specsHtml = '';
+  for (const [k, v] of Object.entries(p.specs)) {
+    specsHtml += `<li><span>${k}</span><span>${v}</span></li>`;
+  }
+
+  document.getElementById('detail-content').innerHTML = `
+    <div class="detail-gallery">
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+      <img src="${p.imgAlt}" alt="${p.name} 细节" loading="lazy">
+    </div>
+    <div class="detail-info">
+      <div class="detail-series">${p.series} — ${p.seriesName}</div>
+      <h1 class="detail-name">${p.name}</h1>
+      <div class="detail-price">${p.price}<em>首发价</em></div>
+      <p class="detail-desc">${p.desc}</p>
+      <div class="detail-specs">
+        <h4>产品规格</h4>
+        <ul>${specsHtml}</ul>
+      </div>
+      <div class="detail-actions">
+        <a href="${p.link}" target="_blank" class="detail-primary">查看详情</a>
+        <button class="detail-secondary" onclick="alert('即将上架，敬请期待')">到货提醒</button>
+      </div>
+    </div>`;
+}
+
+/* ============================================
+   SERIES SCROLL
+   ============================================ */
+function scrollToSeries(id) {
+  navigate('shop');
+  const el = document.getElementById(id);
+  if (el) setTimeout(() => el.scrollIntoView({behavior:'smooth'}), 100);
+}
+
+/* ============================================
+   MOBILE MENU
+   ============================================ */
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('open') ? 'hidden' : '';
+}
+function closeMenu() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ============================================
+   GSAP ANIMATIONS
+   ============================================ */
+gsap.registerPlugin(ScrollTrigger);
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderAllGrids();
+
+  // Nav hide/show on scroll
+  let lastScroll = 0;
+  ScrollTrigger.create({
+    start:'top -80',
+    onUpdate:({direction}) => {
+      const nav = document.getElementById('nav');
+      if (direction === 1 && window.scrollY > 300) nav.classList.add('hidden');
+      else nav.classList.remove('hidden');
+    }
+  });
+
+  // Hero text stagger
+  gsap.to('.anim-up', {
+    y:0, opacity:1, duration:.9,
+    stagger:.15,
+    ease:'power3.out',
+    scrollTrigger:{
+      trigger:'.hero',
+      start:'top 80%'
+    }
+  });
+
+  // Series bento entrance
+  gsap.from('.bento-card', {
+    y:60, opacity:0, duration:.8,
+    stagger:.12,
+    ease:'power2.out',
+    scrollTrigger:{
+      trigger:'.series-bento',
+      start:'top 80%'
+    }
+  });
+
+  // Product cards stagger
+  document.querySelectorAll('.product-grid').forEach(grid => {
+    gsap.from(grid.children, {
+      y:40, opacity:0, duration:.6,
+      stagger:.08,
+      ease:'power2.out',
+      scrollTrigger:{
+        trigger:grid,
+        start:'top 85%'
+      }
+    });
+  });
+
+  // Lookbook stagger
+  gsap.from('.lookbook-item', {
+    y:50, opacity:0, duration:.7,
+    stagger:.1,
+    ease:'power2.out',
+    scrollTrigger:{
+      trigger:'.lookbook-grid',
+      start:'top 85%'
+    }
+  });
+
+  // Guide cards
+  gsap.from('.guide-card', {
+    y:40, opacity:0, duration:.6,
+    stagger:.1,
+    ease:'power2.out',
+    scrollTrigger:{
+      trigger:'.guide-grid',
+      start:'top 85%'
+    }
+  });
+
+  // Brand story
+  gsap.from('.story-text h2, .story-text .story-quote, .story-text p', {
+    y:30, opacity:0, duration:.7,
+    stagger:.12,
+    ease:'power2.out',
+    scrollTrigger:{
+      trigger:'.brand-story',
+      start:'top 80%'
+    }
+  });
+
+  // Handle initial hash
+  const initHash = window.location.hash.replace('#','');
+  if (initHash && initHash.startsWith('product/')) {
+    openDetail(initHash.replace('product/',''));
+  } else if (initHash && ['shop','lookbook','guide','story'].includes(initHash)) {
+    setTimeout(() => navigate(initHash), 100);
+  }
+});
+</script>
+
+</body>
+</html>
