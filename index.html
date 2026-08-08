@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>BLACK+SEIZE 暗驭 | 你穿在身上的权力</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 /* ============================================
    CSS RESET & VARIABLES
@@ -16,12 +19,12 @@
   --border:#1a1a1a;
   --text:#f0f0f0;
   --text2:#999;
-  --text3:#666;
+  --text3:#888;
   --gold:#c9a84c;
   --gold-dim:#8a7030;
   --red:#8b1a1a;
-  --serif:'Times New Roman','Songti SC','STSong',serif;
-  --sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --serif:'Playfair Display','Songti SC','STSong',serif;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
   --max-w:1400px;--gap:24px;
   --section:clamp(60px,10vw,120px);
   --nav-h:64px;
@@ -52,6 +55,34 @@ ul{list-style:none}
 ::-webkit-scrollbar-thumb{background:var(--text3);border-radius:0}
 ::-webkit-scrollbar-thumb:hover{background:var(--text2)}
 ::selection{background:var(--gold);color:var(--bg)}
+
+/* ============================================
+   FOCUS VISIBLE — keyboard accessibility
+   ============================================ */
+:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
+}
+a:focus-visible,button:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+}
+.nav-links a:focus-visible,.mobile-menu a:focus-visible{
+  outline-offset:4px;
+}
+
+/* ============================================
+   REDUCED MOTION — respect user preference
+   ============================================ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+  .film-grain{display:none}
+}
 
 /* ============================================
    NAVIGATION
@@ -175,22 +206,6 @@ ul{list-style:none}
   font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
   color:var(--text3);margin-top:1rem;text-align:center;
 }
-.hero-scroll{
-  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:.5rem;z-index:3;
-}
-.hero-scroll span{
-  font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);
-}
-.hero-scroll-line{
-  width:1px;height:40px;
-  background:linear-gradient(to bottom,var(--gold-dim),transparent);
-  animation:scrollPulse 2s ease-in-out infinite;
-}
-@keyframes scrollPulse{
-  0%,100%{opacity:.3;transform:scaleY(1)}
-  50%{opacity:1;transform:scaleY(1.3)}
-}
 
 /* ============================================
    SERIES BENTO GRID
@@ -211,7 +226,7 @@ ul{list-style:none}
   display:flex;align-items:center;justify-content:center;
 }
 .bento-card .bento-icon{
-  font-family:var(--serif);font-size:6rem;color:var(--gold);opacity:.15;
+  font-family:var(--serif);font-size:clamp(3rem,6vw,5rem);color:var(--gold);opacity:.12;
 }
 .bento-card .bento-overlay{
   position:absolute;bottom:0;left:0;right:0;
@@ -443,21 +458,46 @@ ul{list-style:none}
 .manifesto-cta:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 
 /* ============================================
-   STYLE GUIDE
+   STYLE GUIDE — editorial asymmetric
    ============================================ */
-.guide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
-.guide-card{
-  background:var(--surface);padding:2rem;
-  transition:transform .3s;
+.guide-layout{
+  display:grid;grid-template-columns:1.4fr 1fr;
+  gap:var(--gap);align-items:start;
 }
-.guide-card:hover{transform:translateY(-4px)}
-.guide-icon{font-size:2rem;margin-bottom:1rem;color:var(--gold)}
-.guide-card h3{
-  font-family:var(--serif);font-size:1.15rem;
-  margin-bottom:.75rem;color:var(--text);
+.guide-feature{
+  background:var(--surface);padding:clamp(2rem,4vw,3.5rem);
+  min-height:340px;display:flex;flex-direction:column;justify-content:flex-end;
+  border-left:2px solid var(--gold);transition:border-color .3s;
 }
-.guide-card p{
-  font-size:.85rem;color:var(--text2);line-height:1.7;
+.guide-feature:hover{border-left-color:var(--text)}
+.guide-feature .guide-num{
+  font-family:var(--serif);font-size:3rem;color:var(--gold);opacity:.3;
+  margin-bottom:auto;
+}
+.guide-feature h3{
+  font-family:var(--serif);font-size:clamp(1.3rem,2.5vw,1.75rem);
+  margin-bottom:.75rem;color:var(--text);font-weight:400;
+}
+.guide-feature p{
+  font-size:.88rem;color:var(--text2);line-height:1.7;max-width:380px;
+}
+.guide-list{display:flex;flex-direction:column;gap:var(--gap)}
+.guide-item{
+  background:var(--surface);padding:1.5rem 2rem;
+  display:flex;align-items:flex-start;gap:1.25rem;
+  transition:transform .3s,background .3s;
+}
+.guide-item:hover{transform:translateX(6px);background:var(--surface2)}
+.guide-item .guide-marker{
+  font-family:var(--serif);font-size:1.5rem;color:var(--gold);
+  flex-shrink:0;min-width:1.5rem;
+}
+.guide-item h4{
+  font-family:var(--serif);font-size:1.05rem;
+  margin-bottom:.35rem;color:var(--text);font-weight:400;
+}
+.guide-item p{
+  font-size:.82rem;color:var(--text2);line-height:1.6;
 }
 
 /* ============================================
@@ -498,7 +538,7 @@ ul{list-style:none}
   .story-inner{grid-template-columns:1fr;gap:2rem}
   .detail-content{grid-template-columns:1fr}
   .detail-info{position:static;padding:2rem}
-  .guide-grid{grid-template-columns:1fr 1fr}
+  .guide-layout{grid-template-columns:1fr}
   .footer{grid-template-columns:1fr 1fr}
 }
 @media (max-width:768px){
@@ -508,7 +548,7 @@ ul{list-style:none}
   .hero-title{font-size:2rem}
   .series-bento{grid-template-columns:1fr}
   .product-grid{grid-template-columns:1fr 1fr}
-  .guide-grid{grid-template-columns:1fr}
+  .guide-layout{grid-template-columns:1fr}
   .detail-actions{flex-direction:column}
   .footer{grid-template-columns:1fr;gap:2rem}
 }
@@ -532,7 +572,7 @@ ul{list-style:none}
       <a href="#guide" data-nav="guide">穿搭指南</a>
       <a href="#story" data-nav="story">品牌故事</a>
     </div>
-    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="菜单">
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="打开菜单" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -562,10 +602,6 @@ ul{list-style:none}
         <div class="hero-logo-display">BLACK<span>+</span>SEIZE</div>
         <div class="hero-tagline">你穿在身上的权力</div>
       </div>
-      <div class="hero-scroll">
-        <span>Scroll</span>
-        <div class="hero-scroll-line"></div>
-      </div>
     </div>
   </section>
 
@@ -576,7 +612,7 @@ ul{list-style:none}
     <p class="section-sub">从试探到掌控，从柔软到仪式——每一件都是你某一面的外化。</p>
     <div class="series-bento">
       <a class="bento-card large" href="#first" onclick="scrollToSeries('first')">
-        <div class="bento-bg"><div class="bento-icon">I</div></div>
+        <div class="bento-bg"><div class="bento-icon">初识</div></div>
         <div class="bento-overlay">
           <div class="bento-label">First Collection</div>
           <div class="bento-title">初识</div>
@@ -584,7 +620,7 @@ ul{list-style:none}
         </div>
       </a>
       <a class="bento-card" href="#core" onclick="scrollToSeries('core')">
-        <div class="bento-bg"><div class="bento-icon">II</div></div>
+        <div class="bento-bg"><div class="bento-icon">暗涌</div></div>
         <div class="bento-overlay">
           <div class="bento-label">Core Collection</div>
           <div class="bento-title">暗涌</div>
@@ -592,7 +628,7 @@ ul{list-style:none}
         </div>
       </a>
       <a class="bento-card" href="#power" onclick="scrollToSeries('power')">
-        <div class="bento-bg"><div class="bento-icon">III</div></div>
+        <div class="bento-bg"><div class="bento-icon">掌控</div></div>
         <div class="bento-overlay">
           <div class="bento-label">Power Collection</div>
           <div class="bento-title">掌控</div>
@@ -601,7 +637,7 @@ ul{list-style:none}
       </a>
     </div>
     <a class="bento-card wide" href="#ceremony" onclick="scrollToSeries('ceremony')">
-      <div class="bento-bg"><div class="bento-icon">IV</div></div>
+      <div class="bento-bg"><div class="bento-icon">仪式</div></div>
       <div class="bento-overlay">
         <div class="bento-label">Ceremony Collection</div>
         <div class="bento-title">仪式</div>
@@ -673,26 +709,34 @@ ul{list-style:none}
     <div class="section-label">Style Guide</div>
     <h2 class="section-title">穿搭指南</h2>
     <p class="section-sub">穿暗驭不是为了别人看到，是为了你自己感受到。</p>
-    <div class="guide-grid">
-      <div class="guide-card">
-        <div class="guide-icon">🌙</div>
+    <div class="guide-layout">
+      <div class="guide-feature">
+        <div class="guide-num">01</div>
         <h3>独处仪式</h3>
-        <p>睡袍 + 香薰蜡烛。这不是"穿给自己看"——这是今晚最重要的一场约会。推荐：仪式系列睡袍。</p>
+        <p>睡袍 + 香薰蜡烛。这不是"穿给自己看"——这是今晚最重要的一场约会。当蕾丝贴上皮肤，世界安静下来。推荐：仪式系列睡袍。</p>
       </div>
-      <div class="guide-card">
-        <div class="guide-icon">🖤</div>
-        <h3>惊喜之夜</h3>
-        <p>在外套下藏一件暗涌连体衣。脱下外套的瞬间，就是今晚的转折点。</p>
-      </div>
-      <div class="guide-card">
-        <div class="guide-icon">📐</div>
-        <h3>尺码选择</h3>
-        <p>S码适合娇小身材（胸围80-84），M码标准（胸围84-88），L码丰满（胸围88-92）。蕾丝贴合皮肤才能发挥最大美感。不确定时选大一号。</p>
-      </div>
-      <div class="guide-card">
-        <div class="guide-icon">✨</div>
-        <h3>自信日常</h3>
-        <p>Bralette 可以穿在西装里。没人知道你的秘密，但你知道——这种安静的力量比任何宣言都强。推荐：初识系列吊带套装。</p>
+      <div class="guide-list">
+        <div class="guide-item">
+          <div class="guide-marker">02</div>
+          <div>
+            <h4>惊喜之夜</h4>
+            <p>在外套下藏一件暗涌连体衣。脱下外套的瞬间，就是今晚的转折点。</p>
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-marker">03</div>
+          <div>
+            <h4>尺码选择</h4>
+            <p>S码适合娇小身材（胸围80-84），M码标准（84-88），L码丰满（88-92）。不确定时选大一号。</p>
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-marker">04</div>
+          <div>
+            <h4>自信日常</h4>
+            <p>Bralette 穿在西装里。没人知道你的秘密，但你知道——这种安静的力量比任何宣言都强。</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -954,8 +998,8 @@ function openDetail(id) {
         <p style="font-size:.85rem;color:var(--text2);line-height:1.8">手洗最佳，水温不超过30°C。使用中性洗涤剂，避免漂白。阴凉处自然晾干，不可烘干。真丝及蕾丝产品建议干洗。深色产品首次洗涤可能出现轻微浮色，属正常现象。</p>
       </div>
       <div class="detail-actions">
-        <button class="detail-primary" onclick="alert('即将上架，敬请期待')">即将上架</button>
-        <button class="detail-secondary" onclick="alert('到货后将第一时间通知您')">到货提醒</button>
+        <button class="detail-primary" onclick="alert('即将上架，敬请期待')" aria-label="即将上架">即将上架</button>
+        <button class="detail-secondary" onclick="alert('到货后将第一时间通知您')" aria-label="到货提醒">到货提醒</button>
       </div>
     </div>`;
 }
@@ -973,9 +1017,12 @@ function scrollToSeries(id) {
    MOBILE MENU
    ============================================ */
 function toggleMenu() {
-  document.getElementById('hamburger').classList.toggle('open');
-  document.getElementById('mobileMenu').classList.toggle('open');
-  document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('open') ? 'hidden' : '';
+  const ham = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  ham.classList.toggle('open');
+  menu.classList.toggle('open');
+  ham.setAttribute('aria-expanded', menu.classList.contains('open'));
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
 }
 function closeMenu() {
   document.getElementById('hamburger').classList.remove('open');
@@ -987,6 +1034,8 @@ function closeMenu() {
    GSAP ANIMATIONS
    ============================================ */
 gsap.registerPlugin(ScrollTrigger);
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 document.addEventListener('DOMContentLoaded', () => {
   renderAllGrids();
@@ -1001,49 +1050,57 @@ document.addEventListener('DOMContentLoaded', () => {
     lastScrollY = sy;
   }, {passive:true});
 
-  // Hero text stagger
-  gsap.to('.anim-up', {
-    y:0, opacity:1, duration:.9,
-    stagger:.15, ease:'power3.out',
-    scrollTrigger:{trigger:'.hero', start:'top 80%'}
-  });
-
-  // Series bento entrance
-  gsap.from('.bento-card', {
-    y:60, opacity:0, duration:.8,
-    stagger:.12, ease:'power2.out',
-    scrollTrigger:{trigger:'.series-bento', start:'top 80%'}
-  });
-
-  // Product cards stagger
-  document.querySelectorAll('.product-grid').forEach(grid => {
-    gsap.from(grid.children, {
-      y:40, opacity:0, duration:.6,
-      stagger:.08, ease:'power2.out',
-      scrollTrigger:{trigger:grid, start:'top 85%'}
+  if (prefersReducedMotion) {
+    // Skip all GSAP entrance animations, just show content
+    document.querySelectorAll('.anim-up, .anim-manifesto').forEach(el => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
     });
-  });
+  } else {
+    // Hero text stagger
+    gsap.to('.anim-up', {
+      y:0, opacity:1, duration:.9,
+      stagger:.15, ease:'power3.out',
+      scrollTrigger:{trigger:'.hero', start:'top 80%'}
+    });
 
-  // Guide cards
-  gsap.from('.guide-card', {
-    y:40, opacity:0, duration:.6,
-    stagger:.1, ease:'power2.out',
-    scrollTrigger:{trigger:'.guide-grid', start:'top 85%'}
-  });
+    // Series bento entrance
+    gsap.from('.bento-card', {
+      y:60, opacity:0, duration:.8,
+      stagger:.12, ease:'power2.out',
+      scrollTrigger:{trigger:'.series-bento', start:'top 80%'}
+    });
 
-  // Brand story
-  gsap.from('.story-text h2, .story-text .story-quote, .story-text p', {
-    y:30, opacity:0, duration:.7,
-    stagger:.12, ease:'power2.out',
-    scrollTrigger:{trigger:'.brand-story', start:'top 80%'}
-  });
+    // Product cards stagger
+    document.querySelectorAll('.product-grid').forEach(grid => {
+      gsap.from(grid.children, {
+        y:40, opacity:0, duration:.6,
+        stagger:.08, ease:'power2.out',
+        scrollTrigger:{trigger:grid, start:'top 85%'}
+      });
+    });
 
-  // Brand manifesto
-  gsap.from('.anim-manifesto', {
-    y:40, opacity:0, duration:.9,
-    stagger:.2, ease:'power3.out',
-    scrollTrigger:{trigger:'.manifesto', start:'top 70%'}
-  });
+    // Guide cards
+    gsap.from('.guide-feature, .guide-item', {
+      y:40, opacity:0, duration:.6,
+      stagger:.1, ease:'power2.out',
+      scrollTrigger:{trigger:'.guide-layout', start:'top 85%'}
+    });
+
+    // Brand story
+    gsap.from('.story-text h2, .story-text .story-quote, .story-text p', {
+      y:30, opacity:0, duration:.7,
+      stagger:.12, ease:'power2.out',
+      scrollTrigger:{trigger:'.brand-story', start:'top 80%'}
+    });
+
+    // Brand manifesto
+    gsap.from('.anim-manifesto', {
+      y:40, opacity:0, duration:.9,
+      stagger:.2, ease:'power3.out',
+      scrollTrigger:{trigger:'.manifesto', start:'top 70%'}
+    });
+  }
 
   // Handle initial hash
   const initHash = window.location.hash.replace('#','');
