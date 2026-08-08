@@ -218,20 +218,20 @@ a:focus-visible,button:focus-visible{
   position:relative;overflow:hidden;cursor:pointer;
   background:var(--surface);min-height:400px;
   transition:transform .5s cubic-bezier(.22,1,.36,1);
+  background-size:cover;background-position:center;
 }
 .bento-card:hover{transform:scale(.98)}
 .bento-card.large{grid-row:span 2}
 .bento-card .bento-bg{
   position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,.2) 50%,rgba(0,0,0,.35));
+  transition:background .4s;
 }
-.bento-card .bento-icon{
-  font-family:var(--serif);font-size:clamp(3rem,6vw,5rem);color:var(--gold);opacity:.12;
-}
+.bento-card:hover .bento-bg{background:linear-gradient(to top,rgba(0,0,0,.45),rgba(0,0,0,.1) 50%,rgba(0,0,0,.25))}
 .bento-card .bento-overlay{
   position:absolute;bottom:0;left:0;right:0;
   padding:2.5rem;
-  background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
+  z-index:1;
 }
 .bento-card .bento-label{
   font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
@@ -594,7 +594,7 @@ a:focus-visible,button:focus-visible{
     <div class="hero-text">
       <div class="hero-label anim-up">Black + Seize 暗驭</div>
       <h1 class="hero-title anim-up">你穿在身上<br>的<em>权力</em></h1>
-      <p class="hero-desc anim-up">不是取悦别人的道具，是自我确认的仪式。每一件黑色蕾丝、每一寸剪裁，都是你对身体的终极掌控。</p>
+      <p class="hero-desc anim-up">受够了廉价蕾丝扎人的刺痛？厌倦了为别人而穿的剧本？这里每一件都为你自己而设计——合身、舒适、让你在镜子前凝视自己，而不是在别人的目光里躲闪。</p>
       <a href="#shop" class="hero-cta anim-up" onclick="navigate('shop')">探索系列</a>
     </div>
     <div class="hero-image">
@@ -609,26 +609,26 @@ a:focus-visible,button:focus-visible{
   <section class="section">
     <div class="section-label">The Collections</div>
     <h2 class="section-title">四个系列，四种权力叙事</h2>
-    <p class="section-sub">从试探到掌控，从柔软到仪式——每一件都是你某一面的外化。</p>
+    <p class="section-sub">每一件都解决一个具体的问题——从入门试探到日常仪式，你总能在这里找到自己。</p>
     <div class="series-bento">
-      <a class="bento-card large" href="#first" onclick="scrollToSeries('first')">
-        <div class="bento-bg"><div class="bento-icon">初识</div></div>
+      <a class="bento-card large" href="#first" onclick="scrollToSeries('first')" style="background-image:url('images/series/series_first.webp')">
+        <div class="bento-bg"></div>
         <div class="bento-overlay">
           <div class="bento-label">First Collection</div>
           <div class="bento-title">初识</div>
           <div class="bento-count">2 款 · ¥29.9 起</div>
         </div>
       </a>
-      <a class="bento-card" href="#core" onclick="scrollToSeries('core')">
-        <div class="bento-bg"><div class="bento-icon">暗涌</div></div>
+      <a class="bento-card" href="#core" onclick="scrollToSeries('core')" style="background-image:url('images/series/series_core.webp')">
+        <div class="bento-bg"></div>
         <div class="bento-overlay">
           <div class="bento-label">Core Collection</div>
           <div class="bento-title">暗涌</div>
           <div class="bento-count">3 款 · ¥69 起</div>
         </div>
       </a>
-      <a class="bento-card" href="#power" onclick="scrollToSeries('power')">
-        <div class="bento-bg"><div class="bento-icon">掌控</div></div>
+      <a class="bento-card" href="#power" onclick="scrollToSeries('power')" style="background-image:url('images/series/series_power.webp')">
+        <div class="bento-bg"></div>
         <div class="bento-overlay">
           <div class="bento-label">Power Collection</div>
           <div class="bento-title">掌控</div>
@@ -636,8 +636,8 @@ a:focus-visible,button:focus-visible{
         </div>
       </a>
     </div>
-    <a class="bento-card wide" href="#ceremony" onclick="scrollToSeries('ceremony')">
-      <div class="bento-bg"><div class="bento-icon">仪式</div></div>
+    <a class="bento-card wide" href="#ceremony" onclick="scrollToSeries('ceremony')" style="background-image:url('images/series/series_ceremony.webp')">
+      <div class="bento-bg"></div>
       <div class="bento-overlay">
         <div class="bento-label">Ceremony Collection</div>
         <div class="bento-title">仪式</div>
@@ -650,7 +650,7 @@ a:focus-visible,button:focus-visible{
   <section class="section" id="first">
     <div class="section-label">First Collection</div>
     <h2 class="section-title">初识 · 试探之美</h2>
-    <p class="section-sub">你的第一件暗驭。入口柔软，但一旦穿上——你开始认识一个从未见过的自己。</p>
+    <p class="section-sub">「不知道从哪里开始」不是问题，是起点。初识系列专为第一次试探设计——克制不羞怯，柔软有力量。最低门槛，最高自我发现。</p>
     <div class="product-grid" id="grid-first"></div>
   </section>
 
@@ -658,7 +658,7 @@ a:focus-visible,button:focus-visible{
   <section class="section" id="core">
     <div class="section-label">Core Collection</div>
     <h2 class="section-title">暗涌 · 身体即宣言</h2>
-    <p class="section-sub">剪裁如建筑，蕾丝如宣言。暗涌是水下力量——穿上它，不需要说一个字。</p>
+    <p class="section-sub">「我能驾驭吗？」暗涌系列给你的答案是——能。建筑般的剪裁精准定位每一处优势，无需矫饰，无需多言。穿上即宣言。</p>
     <div class="product-grid" id="grid-core"></div>
   </section>
 
@@ -666,7 +666,7 @@ a:focus-visible,button:focus-visible{
   <section class="section" id="power">
     <div class="section-label">Power Collection</div>
     <h2 class="section-title">掌控 · 你即规则</h2>
-    <p class="section-sub">皮革、金属、绑带——不是被控制，是你选择交出什么，收走什么。权力始终在你手中。</p>
+    <p class="section-sub">「我不想只是被审视的那一个。」皮革、金属、绑带——权力符号握在你手里。你决定节奏、边界和故事的全部走向。</p>
     <div class="product-grid" id="grid-power"></div>
   </section>
 
@@ -674,7 +674,7 @@ a:focus-visible,button:focus-visible{
   <section class="section" id="ceremony">
     <div class="section-label">Ceremony Collection</div>
     <h2 class="section-title">仪式 · 最高级的自我奖赏</h2>
-    <p class="section-sub">真丝的垂坠、顶级蕾丝的触感、礼盒打开的瞬间——这是你给自己的仪式。</p>
+    <p class="section-sub">「每天过得像流水线，我欠自己一个仪式。」真丝垂坠、蕾丝触感、礼盒开封的瞬间——褪去日常，进入只属于你的时间。</p>
     <div class="product-grid" id="grid-ceremony"></div>
   </section>
 
@@ -684,8 +684,8 @@ a:focus-visible,button:focus-visible{
       <div class="story-text">
         <h2>黑色不是颜色缺失<br>是所有颜色的总和</h2>
         <div class="story-quote">"穿上它，你不再是别人眼中的谁——你是自己选择成为的那个人。"</div>
-        <p>BLACK+SEIZE 暗驭诞生于一个简单的信念：情趣内衣不该是讨好别人的工具。它是自我取悦的仪式，是身体与欲望之间的私密对话。</p>
-        <p>我们把黑色作为权力符号——不是因为它经典，而是因为黑色吸收一切、包容一切、定义一切。正如你自己的身体，不需要任何解释。</p>
+        <p>市场上的情趣内衣，要么廉价得像一次性的，要么精致却不舒服，要么干脆默认你是为别人穿的。BLACK+SEIZE 暗驭不是其中之一。</p>
+        <p>我们相信情趣内衣的核心功能只有一个：让你在穿上它的那一刻，感受到对自己的掌控。它不是讨好——它是一个人的仪式、两个人的暗号、所有人的权力声明。</p>
       </div>
       <div class="story-visual"><div class="story-symbol">B+S</div></div>
     </div>
@@ -708,33 +708,33 @@ a:focus-visible,button:focus-visible{
   <section class="section" id="guide-section">
     <div class="section-label">Style Guide</div>
     <h2 class="section-title">穿搭指南</h2>
-    <p class="section-sub">穿暗驭不是为了别人看到，是为了你自己感受到。</p>
+    <p class="section-sub">买了不知道怎么穿？不知道什么场合选什么款？这里有三个已被验证的场景方案。</p>
     <div class="guide-layout">
       <div class="guide-feature">
         <div class="guide-num">01</div>
-        <h3>独处仪式</h3>
-        <p>睡袍 + 香薰蜡烛。这不是"穿给自己看"——这是今晚最重要的一场约会。当蕾丝贴上皮肤，世界安静下来。推荐：仪式系列睡袍。</p>
+        <h3>日常自信</h3>
+        <p>把胸衣叠穿在西装外套里——没人知道你的秘密，但你知道。这种安静的力量比任何宣言都强。推荐：掌控系列 harness。</p>
       </div>
       <div class="guide-list">
         <div class="guide-item">
           <div class="guide-marker">02</div>
           <div>
-            <h4>惊喜之夜</h4>
-            <p>在外套下藏一件暗涌连体衣。脱下外套的瞬间，就是今晚的转折点。</p>
+            <h4>独处仪式</h4>
+            <p>睡袍 + 一盏暖灯。这不是「穿给自己看」——这是你为自己留出的一小时完整仪式。推荐：仪式系列睡袍。</p>
           </div>
         </div>
         <div class="guide-item">
           <div class="guide-marker">03</div>
           <div>
-            <h4>尺码选择</h4>
-            <p>S码适合娇小身材（胸围80-84），M码标准（84-88），L码丰满（88-92）。不确定时选大一号。</p>
+            <h4>选码贴士</h4>
+            <p>S（80-84cm胸围）、M（84-88）、L（88-92）。蕾丝款建议选大不选小，绑带款选标准码即可——绑带本身就是调节器。不确定？页尾咨询入口直接问。</p>
           </div>
         </div>
         <div class="guide-item">
           <div class="guide-marker">04</div>
           <div>
-            <h4>自信日常</h4>
-            <p>Bralette 穿在西装里。没人知道你的秘密，但你知道——这种安静的力量比任何宣言都强。</p>
+            <h4>惊喜之夜</h4>
+            <p>外套下穿暗涌连体衣，脱下外套的瞬间——就是今晚的转折点。不需要多说一句话。</p>
           </div>
         </div>
       </div>
@@ -790,80 +790,80 @@ a:focus-visible,button:focus-visible{
 const products = {
   sku01: {
     series:'初识', seriesLabel:'First Collection', id:'first',
-    name:'初识·暗夜吊带袜套装', tag:'入门款',
-    desc:'黑色蕾丝吊带袜套装，你的第一件暗驭。细肩带设计，蕾丝边缘若隐若现，让入门级的试探也充满仪式感。最低决策成本，最高自我发现。',
+    name:'初识·暗夜吊带袜套装', tag:'第一件',
+    desc:'第一次，不知道从哪里开始？纤细吊带+边缘蕾丝，恰到好处——不过分张扬，也不过分羞怯。黑色蕾丝包裹双腿的瞬间，你发现那股暗涌一直都在。入门价，高级感。',
     price:'¥29.9',
     main:'images/products/sku01_main.webp', alt:'images/products/sku01_alt.webp',
     specs:{'材质':'蕾丝+尼龙','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku02: {
     series:'初识', seriesLabel:'First Collection', id:'first',
-    name:'初识·暗纹蕾丝吊带套装', tag:'进阶',
-    desc:'暗纹蕾丝吊带睡裙，面料上布满若隐若现的暗纹花卉。自带高级感的引流担当——不是讨好，是试探自己可以有多美。',
+    name:'初识·暗纹蕾丝吊带套装', tag:'暗纹限定',
+    desc:'暗纹蕾丝花卉在光线下时隐时现。想性感，怕廉价？这一件给你答案——法国蕾丝的轻柔触感，吊带设计修饰锁骨线条。比入门多一分精致，比张扬多一分内敛。',
     price:'¥49',
     main:'images/products/sku02_main.webp', alt:'images/products/sku02_alt.webp',
     specs:{'材质':'暗纹蕾丝','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku03: {
     series:'暗涌', seriesLabel:'Core Collection', id:'core',
-    name:'暗涌·网格镂空连体衣', tag:'Signature',
-    desc:'全身网格镂空高开叉连体衣。剪裁如建筑，身体即宣言——每一个镂空都是对线条的重新雕刻，暗黑美学核心款。',
+    name:'暗涌·网格镂空连体衣', tag:'签名款',
+    desc:'「我能驾驭吗？」打开包装的那一刻你还在犹豫，穿上之后一切都有了答案。全身网格如建筑结构般勾勒线条，每一个镂空都精准定位在身体最自信的弧度上。不是你穿它——是它找到你的轮廓，然后为它加冕。',
     price:'¥69',
     main:'images/products/sku03_main.webp', alt:'images/products/sku03_alt.webp',
     specs:{'材质':'网格+网纱','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku05: {
     series:'暗涌', seriesLabel:'Core Collection', id:'core',
-    name:'夜宴·高开衩露背睡袍', tag:'Signature',
-    desc:'高开衩+深V露背丝绒睡袍，对标高级时装感。当你穿上它走过房间，影子先于你抵达——暗涌系列经典款。',
+    name:'夜宴·高开衩露背睡袍', tag:'签名款',
+    desc:'高档丝绒垂坠而下，深 V 露背剪裁配合侧边高开衩——每一步都像在走自己的红毯。白天外披一件西装外套出门，夜晚它就是你的专属高定。暗黑优雅，不露怯。',
     price:'¥89',
     main:'images/products/sku05_main.webp', alt:'images/products/sku05_alt.webp',
     specs:{'材质':'丝绒','尺码':'S / M / L','颜色':'黑色','洗涤':'干洗'}
   },
   sku06: {
     series:'暗涌', seriesLabel:'Core Collection', id:'core',
-    name:'沉溺·透纱浴袍套装', tag:'Signature',
-    desc:'薄纱面料+配套丁字裤，若隐若现的高级性感。不需要观众，不需要评价——这件只为一个人存在。',
+    name:'沉溺·透纱浴袍套装', tag:'签名款',
+    desc:'薄如蝉翼的纱，透光不透俗。你不需要观众——这件只为镜前的自己存在。配套同色丁字裤，干净的线条抹去一切多余。穿上，关灯，然后重新认识自己。',
     price:'¥89',
     main:'images/products/sku06_main.webp', alt:'images/products/sku06_alt.webp',
     specs:{'材质':'薄纱+网纱','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku04: {
     series:'掌控', seriesLabel:'Power Collection', id:'power',
-    name:'掌控·皮质束缚三件套', tag:'Core',
-    desc:'手铐+项圈+脚镣PU皮套装。冷冽皮革与金属的对撞——品牌核心权力符号。穿上它，你不再等待被审视，你成为审视本身。',
+    name:'掌控·皮质束缚三件套', tag:'支配者',
+    desc:'冷冽的 PU 皮革，不容置疑的金属扣合。手铐、项圈、脚镣——三件成套，但真正被束缚的，从来不是你。你决定节奏、边界和故事。权力是一种姿态，穿上它，你成为定义者。',
     price:'¥89',
     main:'images/products/sku04_main.webp', alt:'images/products/sku04_alt.webp',
     specs:{'材质':'PU皮+金属','尺码':'均码','颜色':'黑色','洗涤':'湿布擦拭'}
   },
   sku07: {
     series:'掌控', seriesLabel:'Power Collection', id:'power',
-    name:'掌控·蕾丝绑带胸衣腿环套', tag:'Harness',
-    desc:'蕾丝绑带+胸衣+腿环完整三件套。绑带不只是束缚，是身体与欲望的精密工程。掌控系列经典款。',
+    name:'掌控·蕾丝绑带胸衣腿环套', tag:'身体地图',
+    desc:'蕾丝绑带如等高线般缠绕身体。胸衣承托轮廓，腿环定义边界——每一条绑带都由你亲手调整，每一处镂空都是你画下的领土。不是束缚，是身体自主权的精密声明。',
     price:'¥89',
     main:'images/products/sku07_main.webp', alt:'images/products/sku07_alt.webp',
     specs:{'材质':'蕾丝绑带+金属环','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku08: {
     series:'仪式', seriesLabel:'Ceremony Collection', id:'ceremony',
-    name:'仪式·冰丝睡裙睡袍套装', tag:'Premium',
-    desc:'冰丝面料睡裙+外搭睡袍套装。日常与性感兼具——当冰丝滑过肌肤，你会明白什么是最高级的日常仪式。',
+    name:'仪式·冰丝睡裙睡袍套装', tag:'日常仪式',
+    desc:'冰丝滑过肌肤——像被微风包裹。睡裙温和贴身，外搭睡袍随意披上就是一场日常仪式。谁说舒服不能性感？睡前半小时，这是你与自己独处的完整时刻。',
     price:'¥89',
     main:'images/products/sku08_main.webp', alt:'images/products/sku08_alt.webp',
     specs:{'材质':'冰丝','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku09: {
     series:'仪式', seriesLabel:'Ceremony Collection', id:'ceremony',
-    name:'至臻·多片蕾丝绑带连体衣', tag:'Premium',
-    desc:'多片蕾丝拼接+全身绑带系统，复杂工艺形象担当。这不是日常消费品，是你赠予自己的最高级奖赏。',
+    name:'至臻·多片蕾丝绑带连体衣', tag:'匠心之作',
+    desc:'多片法国蕾丝手工拼接，全身绑带系统——这不是日常消费品，是你为某个夜晚预留的惊喜。复杂工艺只为完美贴合，每一处拼接都是时间与手艺的注脚。穿上它，你值得被自己隆重对待。',
     price:'¥128',
     main:'images/products/sku09_main.webp', alt:'images/products/sku09_alt.webp',
     specs:{'材质':'多片蕾丝+绑带','尺码':'S / M / L','颜色':'黑色','洗涤':'手洗，阴凉处晾干'}
   },
   sku10: {
     series:'仪式', seriesLabel:'Ceremony Collection', id:'ceremony',
-    name:'至臻·缎面睡袍睡裙礼盒', tag:'Gift Set',
-    desc:'缎面睡袍+睡裙+腰带礼盒装。黑色包装、金色丝带——拆开的瞬间，你送给自己一份最高级的仪式。',
+    name:'至臻·缎面睡袍睡裙礼盒', tag:'礼盒限定',
+    desc:'缎面睡袍+睡裙+腰带，成套封入黑色礼盒，用金色丝带缄封。拆开它的过程本身就是一场仪式——滑过指尖的缎面，垂坠在镜前的轮廓。这不是礼物，是你送给自己的郑重犒赏。',
     price:'¥158',
     main:'images/products/sku10_main.webp', alt:'images/products/sku10_alt.webp',
     specs:{'材质':'缎面+蕾丝套装','尺码':'S / M / L','颜色':'黑色','洗涤':'干洗'}
