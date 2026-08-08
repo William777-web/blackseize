@@ -410,13 +410,11 @@ a:focus-visible,button:focus-visible{
   line-height:1.8;margin-bottom:1.25rem;max-width:460px;
 }
 .story-visual{
-  background:radial-gradient(ellipse at center,rgba(201,168,76,.1),transparent 70%);
-  min-height:400px;
+  min-height:400px;overflow:hidden;position:relative;
   display:flex;align-items:center;justify-content:center;
 }
-.story-visual .story-symbol{
-  font-family:var(--serif);
-  font-size:8rem;color:var(--gold);opacity:.2;
+.story-visual img{
+  width:100%;height:100%;object-fit:cover;position:absolute;inset:0;
 }
 
 /* ============================================
@@ -594,7 +592,7 @@ a:focus-visible,button:focus-visible{
     <div class="hero-text">
       <div class="hero-label anim-up">Black + Seize 暗驭</div>
       <h1 class="hero-title anim-up">你穿在身上<br>的<em>权力</em></h1>
-      <p class="hero-desc anim-up">受够了廉价蕾丝扎人的刺痛？厌倦了为别人而穿的剧本？这里每一件都为你自己而设计——合身、舒适、让你在镜子前凝视自己，而不是在别人的目光里躲闪。</p>
+      <p class="hero-desc anim-up">我们做内衣，不做剧本。每一件都只为一个目的——让你在镜子前多看自己一眼。</p>
       <a href="#shop" class="hero-cta anim-up" onclick="navigate('shop')">探索系列</a>
     </div>
     <div class="hero-image">
@@ -687,7 +685,7 @@ a:focus-visible,button:focus-visible{
         <p>市场上的情趣内衣，要么廉价得像一次性的，要么精致却不舒服，要么干脆默认你是为别人穿的。BLACK+SEIZE 暗驭不是其中之一。</p>
         <p>我们相信情趣内衣的核心功能只有一个：让你在穿上它的那一刻，感受到对自己的掌控。它不是讨好——它是一个人的仪式、两个人的暗号、所有人的权力声明。</p>
       </div>
-      <div class="story-visual"><div class="story-symbol">B+S</div></div>
+      <div class="story-visual"><img src="images/series/story_brand.webp" alt="BLACK+SEIZE 暗驭品牌故事" loading="lazy"></div>
     </div>
   </section>
 
