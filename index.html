@@ -456,6 +456,62 @@ a:focus-visible,button:focus-visible{
 .manifesto-cta:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 
 /* ============================================
+   QIXI LIMITED EDITION — CTA banner to qixi.html
+   Toggle: URL ?qixi=1 (force show) | ?qixi=0 (force hide)
+   Auto window: 2026-08-13 ~ 2026-08-22
+   ============================================ */
+.qixi-section{
+  display:none;position:relative;
+  background:linear-gradient(180deg,var(--bg),#0a0804 50%,var(--bg));
+  padding:clamp(40px,6vw,72px) var(--section);
+  border-top:1px solid rgba(201,168,76,.1);
+  border-bottom:1px solid rgba(201,168,76,.1);
+  text-align:center;
+}
+.qixi-section.active{display:block}
+.qixi-section::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:400px;height:400px;
+  background:radial-gradient(ellipse at center,rgba(201,168,76,.05),transparent 70%);
+  pointer-events:none;
+}
+.qixi-banner-inner{position:relative;z-index:1}
+.qixi-banner-badge{
+  display:inline-block;font-size:.6rem;letter-spacing:.25em;
+  text-transform:uppercase;color:var(--gold);
+  border:1px solid rgba(201,168,76,.25);
+  padding:.35rem 1rem;margin-bottom:1.2rem;
+}
+.qixi-banner-title{
+  font-family:var(--serif);
+  font-size:clamp(1.6rem,3.5vw,2.5rem);
+  font-weight:400;line-height:1.2;
+  color:var(--text);margin-bottom:.6rem;
+}
+.qixi-banner-title em{font-style:italic;color:var(--gold)}
+.qixi-banner-sub{
+  font-size:.9rem;color:var(--text2);line-height:1.6;
+  max-width:480px;margin:0 auto 1.5rem;
+}
+.qixi-banner-cta{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.8rem 2.2rem;
+  background:var(--gold);color:var(--bg);
+  font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:600;transition:all .3s;cursor:pointer;text-decoration:none;
+}
+.qixi-banner-cta:hover{background:var(--text);color:var(--bg)}
+.qixi-dismiss{
+  position:absolute;top:1rem;right:var(--section);
+  font-size:.7rem;letter-spacing:.1em;color:var(--text3);
+  padding:.25rem .6rem;border:1px solid rgba(255,255,255,.05);
+  transition:all .3s;cursor:pointer;z-index:2;background:transparent;
+}
+.qixi-dismiss:hover{color:var(--text);border-color:var(--border)}
+  .qixi-dismiss{right:1rem;top:1rem}
+}
+
+/* ============================================
    STYLE GUIDE — editorial asymmetric
    ============================================ */
 .guide-layout{
@@ -699,6 +755,17 @@ a:focus-visible,button:focus-visible{
       <div class="manifesto-line anim-manifesto">你是自己选择成为的那个人。</div>
       <div class="manifesto-divider anim-manifesto"></div>
       <a href="#shop" class="manifesto-cta anim-manifesto" onclick="navigate('shop')">探索暗驭</a>
+    </div>
+  </section>
+
+  <!-- QIXI LIMITED EDITION - CTA banner to qixi.html (visible during 8/13~8/22 or ?qixi=1) -->
+  <section class="qixi-section" id="qixi-section">
+    <button class="qixi-dismiss" onclick="dismissQixi()" title="关闭七夕限定">x 关闭</button>
+    <div class="qixi-banner-inner">
+      <div class="qixi-banner-badge">QIXI LIMITED EDITION · 2026</div>
+      <h2 class="qixi-banner-title">今年七夕，<em>礼物自己挑。</em></h2>
+      <p class="qixi-banner-sub">暗驭七夕限定专题已上线。至臻缎面睡袍睡裙礼盒，限量发售。</p>
+      <a class="qixi-banner-cta" href="qixi.html">进入七夕限定</a>
     </div>
   </section>
 
@@ -1029,6 +1096,37 @@ function closeMenu() {
 }
 
 /* ============================================
+   QIXI LIMITED EDITION CONTROL
+   ============================================ */
+function checkQixiStatus() {
+  const section = document.getElementById('qixi-section');
+  if (!section) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const forceShow = params.get('qixi') === '1';
+  const forceHide = params.get('qixi') === '0';
+  const dismissed = localStorage.getItem('qixi_dismissed') === 'true';
+
+  if (forceHide || dismissed) return;
+
+  const qixiStart = new Date('2026-08-13T00:00:00+08:00');
+  const qixiEnd   = new Date('2026-08-22T23:59:59+08:00');
+  const now = new Date();
+
+  if (forceShow || (now >= qixiStart && now <= qixiEnd)) {
+    section.classList.add('active');
+  }
+}
+
+function dismissQixi() {
+  const section = document.getElementById('qixi-section');
+  if (section) {
+    section.classList.remove('active');
+    localStorage.setItem('qixi_dismissed', 'true');
+  }
+}
+
+/* ============================================
    GSAP ANIMATIONS
    ============================================ */
 gsap.registerPlugin(ScrollTrigger);
@@ -1037,6 +1135,9 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 document.addEventListener('DOMContentLoaded', () => {
   renderAllGrids();
+
+  // Qixi — check if we should show the limited edition section
+  checkQixiStatus();
 
   // Nav hide/show on scroll
   let lastScrollY = 0;
@@ -1098,6 +1199,15 @@ document.addEventListener('DOMContentLoaded', () => {
       stagger:.2, ease:'power3.out',
       scrollTrigger:{trigger:'.manifesto', start:'top 70%'}
     });
+
+    // Qixi banner entrance animation
+    if (document.getElementById('qixi-section').classList.contains('active')) {
+      gsap.from('.qixi-banner-inner > *', {
+        y:20, opacity:0, duration:.7,
+        stagger:.1, ease:'power2.out',
+        scrollTrigger:{trigger:'#qixi-section', start:'top 85%'}
+      });
+    }
   }
 
   // Handle initial hash

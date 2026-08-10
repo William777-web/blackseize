@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>七夕限定 | BLACK+SEIZE 暗驭</title>
+<meta name="description" content="今年七夕，礼物自己挑。暗驭七夕限定礼盒 - 至臻缎面睡袍睡裙套装。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   RESET & VARIABLES — same design system as main
+   ============================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050505;
+  --surface:#0c0c0c;
+  --surface2:#111;
+  --border:#1a1a1a;
+  --text:#f0f0f0;
+  --text2:#999;
+  --text3:#888;
+  --gold:#c9a84c;
+  --gold-dim:#8a7030;
+  --serif:'Playfair Display','Songti SC','STSong',serif;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --section:clamp(80px,12vw,140px);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--text);
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+
+/* Film grain */
+.film-grain{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--text3);border-radius:0}
+::selection{background:var(--gold);color:var(--bg)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ============================================
+   NAV
+   ============================================ */
+.qixi-nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(20px,4vw,48px);height:64px;
+  background:linear-gradient(to bottom,rgba(5,5,5,.95),rgba(5,5,5,0));
+  transition:background .4s ease;
+}
+.qixi-nav.scrolled{background:rgba(5,5,5,.92);backdrop-filter:blur(12px)}
+.nav-brand{font-family:var(--serif);font-size:18px;letter-spacing:6px;color:var(--text)}
+.nav-back{
+  font-family:var(--sans);font-size:13px;letter-spacing:2px;color:var(--text2);
+  transition:color .3s;
+}
+.nav-back:hover{color:var(--gold)}
+
+/* ============================================
+   CANVAS STARFIELD
+   ============================================ */
+#starfield{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero{
+  position:relative;z-index:1;
+  min-height:100dvh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:120px clamp(20px,5vw,48px) 80px;
+  background:radial-gradient(ellipse at center,rgba(12,12,30,.6) 0%,var(--bg) 70%);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;z-index:-1;
+  background:url('images/series/qixi_atmosphere.webp') center/cover no-repeat;
+  opacity:.35;
+}
+.hero-eyebrow{
+  font-family:var(--sans);font-size:12px;letter-spacing:8px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:clamp(24px,4vw,40px);
+}
+.hero-headline{
+  font-family:var(--serif);font-size:clamp(36px,7vw,72px);
+  line-height:1.15;letter-spacing:4px;color:var(--text);
+  max-width:800px;
+}
+.hero-headline .gold{color:var(--gold)}
+.hero-sub{
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(18px,2.5vw,26px);color:var(--text2);
+  letter-spacing:2px;margin-top:clamp(20px,3vw,32px);
+}
+.hero-divider{
+  width:60px;height:2px;background:var(--gold);
+  margin:clamp(32px,5vw,48px) auto;
+}
+
+/* Countdown */
+.countdown-wrap{
+  display:flex;gap:clamp(16px,3vw,32px);justify-content:center;
+  margin-top:clamp(8px,2vw,16px);
+}
+.countdown-item{
+  text-align:center;min-width:clamp(56px,8vw,80px);
+}
+.countdown-num{
+  font-family:var(--serif);font-size:clamp(36px,6vw,64px);
+  line-height:1;color:var(--gold);font-weight:500;
+}
+.countdown-label{
+  font-family:var(--sans);font-size:11px;letter-spacing:4px;
+  color:var(--text3);text-transform:uppercase;margin-top:8px;
+}
+.countdown-sep{
+  font-family:var(--serif);font-size:clamp(24px,4vw,48px);
+  color:var(--text3);align-self:center;padding-bottom:20px;
+}
+
+/* ============================================
+   PRODUCT SHOWCASE - full width with glow
+   ============================================ */
+.product-showcase{
+  position:relative;z-index:1;
+  padding:var(--section) clamp(20px,5vw,48px);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,8vw,80px);
+  align-items:center;max-width:1200px;margin:0 auto;
+}
+.product-visual{
+  position:relative;
+}
+.product-visual img{
+  width:100%;height:auto;border-radius:4px;
+  box-shadow:0 0 80px rgba(201,168,76,.08),0 0 200px rgba(201,168,76,.04);
+}
+.product-glow{
+  position:absolute;inset:-2px;border-radius:6px;
+  background:linear-gradient(135deg,rgba(201,168,76,.15),transparent 60%,rgba(201,168,76,.08));
+  pointer-events:none;z-index:-1;
+}
+.product-info{padding-right:clamp(0px,4vw,40px)}
+.product-series{
+  font-family:var(--sans);font-size:11px;letter-spacing:6px;
+  color:var(--gold);text-transform:uppercase;margin-bottom:16px;
+}
+.product-name{
+  font-family:var(--serif);font-size:clamp(28px,4vw,42px);
+  line-height:1.2;letter-spacing:2px;margin-bottom:12px;
+}
+.product-desc{
+  font-family:var(--sans);font-size:15px;line-height:1.8;
+  color:var(--text2);margin-bottom:28px;max-width:400px;
+}
+.product-price{
+  font-family:var(--serif);font-size:32px;color:var(--gold);
+  letter-spacing:2px;margin-bottom:8px;
+}
+.product-price-note{
+  font-family:var(--sans);font-size:13px;color:var(--text3);letter-spacing:1px;
+}
+.product-contents{
+  margin-top:32px;padding-top:24px;border-top:1px solid var(--border);
+  font-family:var(--sans);font-size:14px;color:var(--text2);letter-spacing:2px;
+}
+.product-contents span{color:var(--gold)}
+
+/* ============================================
+   CARD PREVIEW
+   ============================================ */
+.card-preview{
+  position:relative;z-index:1;
+  padding:var(--section) clamp(20px,5vw,48px);
+  text-align:center;
+}
+.card-section-title{
+  font-family:var(--serif);font-size:clamp(28px,3.5vw,40px);
+  letter-spacing:4px;margin-bottom:clamp(40px,6vw,64px);
+}
+.card-section-title .gold{color:var(--gold)}
+.card-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,48px);
+  max-width:900px;margin:0 auto;
+}
+.card-mock{
+  aspect-ratio:1;
+  background:var(--surface);
+  border:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:clamp(24px,4vw,48px);
+  position:relative;
+}
+.card-mock::before{
+  content:'';position:absolute;inset:12px;
+  border:1px solid var(--gold-dim);
+}
+.card-label{
+  font-family:var(--sans);font-size:10px;letter-spacing:6px;
+  color:var(--text3);text-transform:uppercase;margin-bottom:24px;
+}
+.card-mock-front .card-main{
+  font-family:var(--serif);font-size:clamp(24px,3vw,36px);
+  line-height:1.4;letter-spacing:4px;color:var(--text);
+}
+.card-mock-front .card-sub{
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(14px,1.8vw,18px);color:var(--text2);
+  margin-top:16px;letter-spacing:2px;
+}
+.card-divider{width:40px;height:1px;background:var(--gold);margin:20px auto}
+.card-mock-front .card-slogan{
+  font-family:var(--serif);font-size:clamp(16px,2vw,22px);
+  color:var(--text);letter-spacing:4px;
+}
+
+.card-mock-back .card-title{
+  font-family:var(--serif);font-size:clamp(20px,2.5vw,28px);
+  letter-spacing:3px;margin-bottom:24px;
+}
+.card-mock-back .card-promise{
+  font-family:var(--sans);font-size:13px;color:var(--text2);
+  line-height:2.2;letter-spacing:1px;
+}
+.card-mock-back .card-promise strong{
+  color:var(--text);font-weight:500;
+}
+.card-mock-back .card-contents{
+  margin-top:24px;font-family:var(--sans);font-size:13px;
+  color:var(--text2);letter-spacing:1px;
+}
+
+/* ============================================
+   QUALITY PROMISES
+   ============================================ */
+.promises{
+  position:relative;z-index:1;
+  padding:var(--section) clamp(20px,5vw,48px);
+  max-width:800px;margin:0 auto;text-align:center;
+}
+.promises-title{
+  font-family:var(--serif);font-size:clamp(28px,3.5vw,40px);
+  letter-spacing:4px;margin-bottom:clamp(40px,6vw,64px);
+}
+.promises-list{display:flex;flex-direction:column;gap:clamp(32px,5vw,48px)}
+.promise-item{text-align:center}
+.promise-head{
+  font-family:var(--serif);font-size:clamp(18px,2.2vw,24px);
+  letter-spacing:2px;color:var(--text);margin-bottom:8px;
+}
+.promise-body{
+  font-family:var(--sans);font-size:14px;line-height:1.8;
+  color:var(--text2);max-width:500px;margin:0 auto;letter-spacing:1px;
+}
+
+/* ============================================
+   LOVE LETTER — manifesto
+   ============================================ */
+.love-letter{
+  position:relative;z-index:1;
+  padding:clamp(60px,10vw,140px) clamp(20px,5vw,48px);
+  text-align:center;max-width:700px;margin:0 auto;
+}
+.letter-seal{
+  width:60px;height:60px;border:1px solid var(--gold-dim);
+  border-radius:50%;margin:0 auto 48px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:20px;color:var(--gold);
+  letter-spacing:2px;
+}
+.letter-body{
+  font-family:var(--serif);font-size:clamp(20px,2.8vw,30px);
+  line-height:1.8;letter-spacing:2px;color:var(--text);
+}
+.letter-body em{font-style:italic;color:var(--gold)}
+.letter-close{
+  margin-top:clamp(40px,6vw,60px);
+  font-family:var(--serif);font-size:clamp(18px,2.2vw,26px);
+  letter-spacing:6px;color:var(--text2);
+  font-style:italic;
+}
+.letter-sign{
+  margin-top:32px;
+  font-family:var(--serif);font-size:24px;letter-spacing:12px;
+  color:var(--gold);
+}
+
+/* ============================================
+   KINETIC STRIP — horizontal scroll text
+   ============================================ */
+.kinetic-strip{
+  position:relative;z-index:1;
+  overflow:hidden;padding:40px 0;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.kinetic-track{
+  display:flex;gap:clamp(32px,5vw,64px);
+  animation:kinetic-scroll 30s linear infinite;
+}
+@keyframes kinetic-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.kinetic-item{
+  font-family:var(--serif);font-size:clamp(14px,1.8vw,18px);
+  letter-spacing:4px;color:var(--text3);white-space:nowrap;
+}
+.kinetic-item.gold{color:var(--gold)}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.qixi-footer{
+  position:relative;z-index:1;
+  padding:clamp(40px,6vw,80px) clamp(20px,5vw,48px);
+  text-align:center;
+}
+.footer-brand{
+  font-family:var(--serif);font-size:28px;letter-spacing:10px;
+  color:var(--text);margin-bottom:16px;
+}
+.footer-tag{
+  font-family:var(--sans);font-size:11px;letter-spacing:6px;
+  color:var(--gold);margin-bottom:24px;
+}
+.footer-note{
+  font-family:var(--sans);font-size:12px;color:var(--text3);
+  letter-spacing:1px;line-height:1.8;
+}
+
+/* ============================================
+   PAGE LOAD FADE
+   ============================================ */
+.page-load{opacity:0;transition:opacity .8s ease}
+.page-load.loaded{opacity:1}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media(max-width:768px){
+  .product-showcase{grid-template-columns:1fr;gap:40px}
+  .product-info{padding-right:0;text-align:center}
+  .product-desc{margin:0 auto 28px}
+  .card-grid{grid-template-columns:1fr;max-width:400px}
+  .countdown-wrap{gap:12px}
+  .countdown-item{min-width:52px}
+}
+
+/* ============================================
+   FADE/REVEAL ANIMATIONS (GSAP)
+   ============================================ */
+.fade-up{opacity:0;transform:translateY(30px)}
+</style>
+</head>
+<body class="page-load">
+<div class="film-grain"></div>
+<canvas id="starfield"></canvas>
+
+<!-- NAV -->
+<nav class="qixi-nav" id="qixiNav">
+  <a href="index.html" class="nav-brand">BLACK+SEIZE</a>
+  <a href="index.html" class="nav-back">返回主站</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow fade-up">QIXI LIMITED EDITION · 2026</p>
+  <h1 class="hero-headline fade-up">今年七夕，<br><span class="gold">礼物自己挑。</span></h1>
+  <p class="hero-sub fade-up">你比谁都清楚自己值得什么。</p>
+  <div class="hero-divider fade-up"></div>
+  <div class="countdown-wrap fade-up" id="countdown">
+    <div class="countdown-item"><div class="countdown-num" id="cd-days">00</div><div class="countdown-label">天</div></div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-item"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">时</div></div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-item"><div class="countdown-num" id="cd-mins">00</div><div class="countdown-label">分</div></div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-item"><div class="countdown-num" id="cd-secs">00</div><div class="countdown-label">秒</div></div>
+  </div>
+</section>
+
+<!-- KINETIC STRIP -->
+<div class="kinetic-strip fade-up">
+  <div class="kinetic-track" id="kineticTrack">
+    <span class="kinetic-item gold">QIXI LIMITED EDITION</span>
+    <span class="kinetic-item">至臻缎面</span>
+    <span class="kinetic-item gold">QIXI LIMITED EDITION</span>
+    <span class="kinetic-item">睡袍睡裙礼盒</span>
+    <span class="kinetic-item gold">QIXI LIMITED EDITION</span>
+    <span class="kinetic-item">RMB 158</span>
+    <span class="kinetic-item gold">QIXI LIMITED EDITION</span>
+    <span class="kinetic-item">限量发售</span>
+    <span class="kinetic-item gold">QIXI LIMITED EDITION</span>
+    <span class="kinetic-item">至臻缎面</span>
+    <span class="kinetic-item gold">QIXI LIMITED EDITION</span>
+    <span class="kinetic-item">睡袍睡裙礼盒</span>
+    <span class="kinetic-item gold">QIXI LIMITED EDITION</span>
+    <span class="kinetic-item">RMB 158</span>
+    <span class="kinetic-item gold">QIXI LIMITED EDITION</span>
+    <span class="kinetic-item">限量发售</span>
+  </div>
+</div>
+
+<!-- PRODUCT SHOWCASE -->
+<section class="product-showcase">
+  <div class="product-visual fade-up">
+    <div class="product-glow"></div>
+    <img src="images/products/sku10_main.webp" alt="至臻·缎面睡袍睡裙礼盒" loading="lazy">
+  </div>
+  <div class="product-info fade-up">
+    <p class="product-series">至臻系列</p>
+    <h2 class="product-name">缎面睡袍睡裙礼盒</h2>
+    <p class="product-desc">
+      你值得一整晚的丝滑。缎面睡袍垂坠如水，睡裙贴身轻柔。打开礼盒的那一刻，不是收礼物——是给自己一个不被打扰的夜晚。
+    </p>
+    <p class="product-price">¥158</p>
+    <p class="product-price-note">七夕限定礼盒装</p>
+    <div class="product-contents">
+      礼盒内容：<span>缎面睡袍 x 1</span> ｜ <span>睡裙 x 1</span> ｜ <span>腰带 x 1</span>
+    </div>
+  </div>
+</section>
+
+<!-- CARD PREVIEW -->
+<section class="card-preview">
+  <h2 class="card-section-title fade-up">限定卡片 · <span class="gold">随礼盒附赠</span></h2>
+  <div class="card-grid">
+    <div class="card-mock card-mock-front fade-up">
+      <p class="card-label">正面</p>
+      <p class="card-main">今年七夕，<br>礼物自己挑。</p>
+      <p class="card-sub">你比谁都清楚自己值得什么。</p>
+      <div class="card-divider"></div>
+      <p class="card-slogan">熄灯之后，你开车</p>
+    </div>
+    <div class="card-mock card-mock-back fade-up">
+      <p class="card-label">背面</p>
+      <p class="card-title">写给自己的情书</p>
+      <div class="card-divider"></div>
+      <p class="card-promise">
+        <strong>· 不做伪大码</strong><br>大码全系列 M / L / XL 三码细分<br><br>
+        <strong>· 无金属暗扣</strong><br>贴身处全部采用树脂按扣与系带<br><br>
+        <strong>· 成分如实</strong><br>吊牌成分与面料一致
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- QUALITY PROMISES -->
+<section class="promises">
+  <h2 class="promises-title fade-up">品质承诺</h2>
+  <div class="promises-list">
+    <div class="promise-item fade-up">
+      <p class="promise-head">不做伪大码</p>
+      <p class="promise-body">大码全系列 M / L / XL 三码细分，标注真实体重区间。每一码都为真实身材设计，不是等比例放大。</p>
+    </div>
+    <div class="promise-item fade-up">
+      <p class="promise-head">无金属暗扣</p>
+      <p class="promise-body">贴身处全部采用树脂按扣与系带。你感受不到任何金属——只有面料贴着皮肤。</p>
+    </div>
+    <div class="promise-item fade-up">
+      <p class="promise-head">成分如实</p>
+      <p class="promise-body">吊牌成分与面料一致，接受任何质检。不说谎的品牌不需要解释。</p>
+    </div>
+  </div>
+</section>
+
+<!-- LOVE LETTER -->
+<section class="love-letter">
+  <div class="letter-seal fade-up">B+S</div>
+  <div class="letter-body fade-up">
+    <p>今年七夕，<em>礼物自己挑。</em></p>
+    <p style="margin-top:24px">你比谁都清楚自己值得什么。</p>
+    <p style="margin-top:24px">不是为了被看见。<br>是为了在镜子前，<em>多看一眼自己。</em></p>
+  </div>
+  <p class="letter-close fade-up">熄灯之后，你开车</p>
+  <p class="letter-sign fade-up">暗 驭</p>
+</section>
+
+<!-- FOOTER -->
+<footer class="qixi-footer">
+  <p class="footer-brand">BLACK+SEIZE</p>
+  <p class="footer-tag">QIXI LIMITED EDITION · 2026</p>
+  <p class="footer-note">
+    冷水手洗 · 阴凉处晾干 · 勿漂白 · 深浅色分开洗涤<br>
+    限量发售 · 售完即止
+  </p>
+</footer>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+/* ============================================
+   TIME WINDOW CONTROL
+   ============================================ */
+const QIXI_START = new Date('2026-08-13T00:00:00+08:00');
+const QIXI_END   = new Date('2026-08-22T23:59:59+08:00');
+const QIXI_DAY   = new Date('2026-08-19T00:00:00+08:00');
+const params = new URLSearchParams(window.location.search);
+
+function shouldShowQixi() {
+  if (params.has('qixi')) return params.get('qixi') === '1';
+  const now = new Date();
+  return now >= QIXI_START && now <= QIXI_END;
+}
+
+if (!shouldShowQixi()) {
+  document.body.innerHTML = `
+    <div style="min-height:100dvh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:#050505;color:#999;font-family:'DM Sans',sans-serif;text-align:center;padding:20px">
+      <p style="font-family:'Playfair Display',serif;font-size:24px;color:#c9a84c;letter-spacing:4px">七夕限定已结束</p>
+      <p style="font-size:14px;letter-spacing:1px">来年七夕再见。</p>
+      <a href="index.html" style="margin-top:24px;color:#c9a84c;font-size:13px;letter-spacing:2px;border:1px solid #8a7030;padding:10px 28px;text-decoration:none">返回主站</a>
+    </div>`;
+  document.title = '七夕限定已结束 | BLACK+SEIZE';
+}
+
+/* ============================================
+   STARFIELD CANVAS
+   ============================================ */
+(function() {
+  const canvas = document.getElementById('starfield');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  let animId;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  function initStars() {
+    const count = Math.floor((canvas.width * canvas.height) / 4000);
+    stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.4 + 0.3,
+        a: Math.random() * 0.6 + 0.1,
+        speed: Math.random() * 0.003 + 0.001,
+        pulse: Math.random() * Math.PI * 2
+      });
+    }
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const s of stars) {
+      s.a += s.speed * 0.02;
+      const alpha = 0.1 + Math.sin(s.a) * 0.2 + 0.15;
+      const hue = s.r > 1 ? '201,168,76' : '255,255,255';
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${hue},${alpha})`;
+      ctx.fill();
+    }
+    animId = requestAnimationFrame(draw);
+  }
+
+  resize();initStars();draw();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mq.matches) { cancelAnimationFrame(animId); }
+  mq.addEventListener('change', e => {
+    if (e.matches) cancelAnimationFrame(animId);
+    else { initStars(); draw(); }
+  });
+})();
+
+/* ============================================
+   COUNTDOWN
+   ============================================ */
+(function() {
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function update() {
+    const now = new Date();
+    const diff = QIXI_DAY - now;
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '00';
+      document.getElementById('cd-hours').textContent = '00';
+      document.getElementById('cd-mins').textContent = '00';
+      document.getElementById('cd-secs').textContent = '00';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = pad(d);
+    document.getElementById('cd-hours').textContent = pad(h);
+    document.getElementById('cd-mins').textContent = pad(m);
+    document.getElementById('cd-secs').textContent = pad(s);
+  }
+  update();
+  setInterval(update, 1000);
+})();
+
+/* ============================================
+   GSAP SCROLL ANIMATIONS
+   ============================================ */
+(function() {
+  if (!shouldShowQixi()) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Page load
+  document.body.classList.add('loaded');
+
+  // Fade-up reveals
+  const fades = document.querySelectorAll('.fade-up');
+  fades.forEach(el => {
+    gsap.fromTo(el,
+      { y: 30, opacity: 0 },
+      {
+        y: 0, opacity: 1, duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+      }
+    );
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('qixiNav');
+  if (nav) {
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+  }
+
+  // Product glow pulse
+  gsap.to('.product-glow', {
+    opacity: 0.5,
+    duration: 3,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut'
+  });
+
+  // Hero stagger
+  const heroFades = document.querySelectorAll('.hero .fade-up');
+  heroFades.forEach((el, i) => {
+    gsap.fromTo(el,
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, delay: i * 0.15, ease: 'power3.out' }
+    );
+  });
+
+  // Reduced motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    fades.forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+    heroFades.forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  }
+})();
+</script>
+</body>
+</html>
