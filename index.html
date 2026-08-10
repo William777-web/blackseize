@@ -115,6 +115,21 @@ a:focus-visible,button:focus-visible{
   content:'';position:absolute;bottom:-4px;left:0;right:0;
   height:1px;background:var(--gold);
 }
+.qixi-nav-indicator{
+  display:none;align-items:center;gap:.45rem;
+  font-size:.68rem;letter-spacing:.15em;
+  color:var(--gold);margin-left:1.5rem;
+  animation:qixi-pulse 3s ease-in-out infinite;
+}
+.qixi-nav-indicator.on{display:flex}
+.qixi-nav-indicator .dot{
+  display:inline-block;width:5px;height:5px;
+  border-radius:50%;background:var(--gold);
+}
+@keyframes qixi-pulse{
+  0%,100%{opacity:1}
+  50%{opacity:.55}
+}
 .nav-hamburger{display:none;flex-direction:column;gap:5px;padding:12px}
 .nav-hamburger span{
   display:block;width:22px;height:1.5px;background:var(--text);
@@ -206,6 +221,10 @@ a:focus-visible,button:focus-visible{
   font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
   color:var(--text3);margin-top:1rem;text-align:center;
 }
+.qixi-starfield{
+  display:none;position:absolute;inset:0;z-index:0;pointer-events:none;
+}
+.qixi-starfield.on{display:block}
 
 /* ============================================
    SERIES BENTO GRID
@@ -508,8 +527,18 @@ a:focus-visible,button:focus-visible{
   transition:all .3s;cursor:pointer;z-index:2;background:transparent;
 }
 .qixi-dismiss:hover{color:var(--text);border-color:var(--border)}
-  .qixi-dismiss{right:1rem;top:1rem}
+.qixi-product-badge{
+  display:none;position:absolute;top:.65rem;right:.65rem;z-index:2;
+  font-size:.58rem;letter-spacing:.12em;
+  background:var(--gold);color:var(--bg);
+  padding:.3rem .7rem;font-weight:600;
 }
+.qixi-product-badge.on{display:block}
+/* Golden accents during qixi window */
+body.qixi-active .hero-image{
+  box-shadow:inset 0 0 120px rgba(201,168,76,.04);
+}
+body.qixi-active .nav{border-bottom-color:rgba(201,168,76,.12)}
 
 /* ============================================
    STYLE GUIDE — editorial asymmetric
@@ -597,6 +626,7 @@ a:focus-visible,button:focus-visible{
 }
 @media (max-width:768px){
   .nav-links{display:none}
+  .qixi-nav-indicator{display:none!important}
   .nav-hamburger{display:flex}
   .section-title{font-size:1.5rem}
   .hero-title{font-size:2rem}
@@ -626,6 +656,7 @@ a:focus-visible,button:focus-visible{
       <a href="#guide" data-nav="guide">穿搭指南</a>
       <a href="#story" data-nav="story">品牌故事</a>
     </div>
+    <div class="qixi-nav-indicator" id="qixi-nav-indicator"><span class="dot"></span>七夕限定</div>
     <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="打开菜单" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -652,6 +683,7 @@ a:focus-visible,button:focus-visible{
       <a href="#shop" class="hero-cta anim-up" onclick="navigate('shop')">探索系列</a>
     </div>
     <div class="hero-image">
+      <canvas class="qixi-starfield" id="qixi-starfield"></canvas>
       <div>
         <div class="hero-logo-display">BLACK<span>+</span>SEIZE</div>
         <div class="hero-tagline">你穿在身上的权力</div>
@@ -764,8 +796,8 @@ a:focus-visible,button:focus-visible{
     <div class="qixi-banner-inner">
       <div class="qixi-banner-badge">QIXI LIMITED EDITION · 2026</div>
       <h2 class="qixi-banner-title">今年七夕，<em>礼物自己挑。</em></h2>
-      <p class="qixi-banner-sub">暗驭七夕限定专题已上线。至臻缎面睡袍睡裙礼盒，限量发售。</p>
-      <a class="qixi-banner-cta" href="qixi.html">进入七夕限定</a>
+      <p class="qixi-banner-sub">暗驭七夕限定已上线。至臻缎面睡袍睡裙礼盒，限量发售。</p>
+      <a class="qixi-banner-cta" href="#ceremony" onclick="scrollToSeries('ceremony')">探索仪式系列</a>
     </div>
   </section>
 
@@ -940,9 +972,11 @@ const products = {
    ============================================ */
 function renderProductCard(id) {
   const p = products[id];
+  const qixiBadge = (id === 'sku10') ? '<div class="qixi-product-badge" id="qixi-badge-sku10">七夕限定</div>' : '';
   return `
     <div class="product-card" onclick="openDetail('${id}')">
       <div class="product-image">
+        ${qixiBadge}
         <img class="primary" src="${p.main}" alt="${p.name}" loading="lazy">
         <img class="alt-img" src="${p.alt}" alt="${p.name} 上身效果" loading="lazy">
         <div class="product-tag">${p.tag}</div>
@@ -1099,31 +1133,104 @@ function closeMenu() {
    QIXI LIMITED EDITION CONTROL
    ============================================ */
 function checkQixiStatus() {
-  const section = document.getElementById('qixi-section');
-  if (!section) return;
-
-  const params = new URLSearchParams(window.location.search);
-  const forceShow = params.get('qixi') === '1';
-  const forceHide = params.get('qixi') === '0';
+  const href = window.location.href;
+  const forceShow = href.indexOf('qixi=1') !== -1;
+  const forceHide = href.indexOf('qixi=0') !== -1;
   const dismissed = localStorage.getItem('qixi_dismissed') === 'true';
 
   if (forceHide || dismissed) return;
 
-  const qixiStart = new Date('2026-08-13T00:00:00+08:00');
-  const qixiEnd   = new Date('2026-08-22T23:59:59+08:00');
-  const now = new Date();
+  const qixiStart = Date.UTC(2026,7,13,0,0,0) - 8*3600000; // Aug 13 CST
+  const qixiEnd   = Date.UTC(2026,7,22,23,59,59) - 8*3600000; // Aug 22 CST
+  const now = Date.now();
 
   if (forceShow || (now >= qixiStart && now <= qixiEnd)) {
-    section.classList.add('active');
+    activateQixi();
+  }
+
+  function activateQixi() {
+    // CTA banner
+    const section = document.getElementById('qixi-section');
+    if (section) section.classList.add('active');
+    // Body class for global gold accents
+    document.body.classList.add('qixi-active');
+    // Nav indicator
+    const navInd = document.getElementById('qixi-nav-indicator');
+    if (navInd) navInd.classList.add('on');
+    // SKU-10 badge (available after renderAllGrids)
+    setTimeout(() => {
+      const badge = document.getElementById('qixi-badge-sku10');
+      if (badge) badge.classList.add('on');
+    }, 100);
+    // Hero starfield
+    initQixiStarfield();
   }
 }
 
 function dismissQixi() {
   const section = document.getElementById('qixi-section');
-  if (section) {
-    section.classList.remove('active');
-    localStorage.setItem('qixi_dismissed', 'true');
+  if (section) section.classList.remove('active');
+  document.body.classList.remove('qixi-active');
+  const navInd = document.getElementById('qixi-nav-indicator');
+  if (navInd) navInd.classList.remove('on');
+  const badge = document.getElementById('qixi-badge-sku10');
+  if (badge) badge.classList.remove('on');
+  localStorage.setItem('qixi_dismissed', 'true');
+}
+
+/* ============================================
+   QIXI STARFIELD — subtle gold particles
+   ============================================ */
+function initQixiStarfield() {
+  const canvas = document.getElementById('qixi-starfield');
+  if (!canvas) return;
+  const heroImg = document.querySelector('.hero-image');
+  if (!heroImg) return;
+
+  canvas.classList.add('on');
+  canvas.width = heroImg.offsetWidth;
+  canvas.height = heroImg.offsetHeight;
+  const ctx = canvas.getContext('2d');
+
+  const stars = [];
+  const count = 60;
+  for (let i = 0; i < count; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + 0.3,
+      a: Math.random(),
+      da: (Math.random() - 0.5) * 0.008,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: (Math.random() - 0.5) * 0.15
+    });
   }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const s of stars) {
+      s.a += s.da;
+      if (s.a > 1 || s.a < 0.1) s.da *= -1;
+      s.x += s.vx;
+      s.y += s.vy;
+      if (s.x < 0) s.x = canvas.width;
+      if (s.x > canvas.width) s.x = 0;
+      if (s.y < 0) s.y = canvas.height;
+      if (s.y > canvas.height) s.y = 0;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(201,168,76,${s.a * 0.5})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  // Resize handler
+  window.addEventListener('resize', () => {
+    canvas.width = heroImg.offsetWidth;
+    canvas.height = heroImg.offsetHeight;
+  });
 }
 
 /* ============================================
