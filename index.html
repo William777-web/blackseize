@@ -4,9 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>BLACK+SEIZE 暗驭 | 你穿在身上的权力</title>
+<meta name="description" content="BLACK+SEIZE 暗驭 — 黑色权力符号，自我取悦叙事。四个系列，四种权力叙事。从¥29.9起，探索属于你的黑色力量。">
+<meta property="og:title" content="BLACK+SEIZE 暗驭 | 你穿在身上的权力">
+<meta property="og:description" content="四个系列，四种权力叙事。从¥29.9起，探索属于你的黑色力量。">
+<meta property="og:image" content="https://william777-web.github.io/blackseize/images/series/series_first.webp">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://william777-web.github.io/blackseize/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BLACK+SEIZE 暗驭 | 你穿在身上的权力">
+<meta name="twitter:description" content="四个系列，四种权力叙事。从¥29.9起。">
+<meta name="twitter:image" content="https://william777-web.github.io/blackseize/images/series/series_first.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="images/series/series_first.webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/series/series_core.webp" fetchpriority="high">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
 /* ============================================
    CSS RESET & VARIABLES
@@ -55,6 +68,16 @@ ul{list-style:none}
 ::-webkit-scrollbar-thumb{background:var(--text3);border-radius:0}
 ::-webkit-scrollbar-thumb:hover{background:var(--text2)}
 ::selection{background:var(--gold);color:var(--bg)}
+
+/* Toast notification */
+.toast-container{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;align-items:center;gap:.5rem;pointer-events:none}
+.toast{pointer-events:auto;background:var(--surface2);border:1px solid var(--gold-dim);color:var(--text);padding:.8rem 2rem;font-size:.78rem;letter-spacing:.06em;opacity:0;transform:translateY(1rem);transition:all .4s cubic-bezier(.22,1,.36,1)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{border-color:var(--gold);box-shadow:0 0 24px rgba(201,168,76,.06)}
+
+/* Skip link */
+.skip-link{position:fixed;top:-100%;left:1rem;z-index:10001;background:var(--gold);color:var(--bg);padding:.6rem 1.2rem;font-size:.8rem;font-weight:600;letter-spacing:.05em;text-decoration:none;transition:top .25s}
+.skip-link:focus{top:1rem}
 
 /* ============================================
    FOCUS VISIBLE — keyboard accessibility
@@ -206,7 +229,11 @@ a:focus-visible,button:focus-visible{
 .hero-image{
   position:relative;height:100%;min-height:100vh;min-height:100dvh;
   overflow:hidden;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse at center,rgba(201,168,76,.08),transparent 70%);
+  background:
+    radial-gradient(ellipse at 50% 40%,rgba(201,168,76,.12) 0%,rgba(201,168,76,.03) 45%,transparent 70%),
+    radial-gradient(ellipse at 80% 60%,rgba(201,168,76,.05),transparent 50%),
+    radial-gradient(ellipse at 20% 80%,rgba(201,168,76,.02),transparent 40%);
+  box-shadow:inset 0 0 180px rgba(201,168,76,.03);
 }
 .hero-image .hero-logo-display{
   font-family:var(--serif);
@@ -215,6 +242,7 @@ a:focus-visible,button:focus-visible{
   color:var(--text);
   text-align:center;
   line-height:1;
+  text-shadow:0 0 80px rgba(201,168,76,.12),0 0 160px rgba(201,168,76,.05);
 }
 .hero-image .hero-logo-display span{color:var(--gold)}
 .hero-tagline{
@@ -644,6 +672,8 @@ body.qixi-active .nav{border-bottom-color:rgba(201,168,76,.12)}
 </head>
 <body>
 
+<a href="#main" class="skip-link">跳过导航，直达内容</a>
+
 <div class="film-grain"></div>
 
 <!-- NAVIGATION -->
@@ -881,6 +911,28 @@ body.qixi-active .nav{border-bottom-color:rgba(201,168,76,.12)}
 
 <script>
 /* ============================================
+   TOAST NOTIFICATION — replaces alert()
+   ============================================ */
+function showToast(msg, type) {
+  let container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement('div');
+  toast.className = 'toast' + (type === 'success' ? ' success' : '');
+  toast.textContent = msg;
+  container.appendChild(toast);
+  requestAnimationFrame(function(){ toast.classList.add('show'); });
+  setTimeout(function(){
+    toast.classList.remove('show');
+    setTimeout(function(){ toast.remove(); }, 400);
+  }, 2500);
+}
+
+/* ============================================
    PRODUCT DATA — aligned to SKU手册
    No supplier links in consumer-facing code
    ============================================ */
@@ -903,7 +955,7 @@ const products = {
   },
   sku03: {
     series:'暗涌', seriesLabel:'Core Collection', id:'core',
-    name:'暗涌·网格镂空连体衣', tag:'签名款',
+    name:'暗涌·网格镂空连体衣', tag:'网纹系列',
     desc:'「我能驾驭吗？」打开包装的那一刻你还在犹豫，穿上之后一切都有了答案。全身网格如建筑结构般勾勒线条，每一个镂空都精准定位在身体最自信的弧度上。不是你穿它——是它找到你的轮廓，然后为它加冕。',
     price:'¥69',
     main:'images/products/sku03_main.webp', alt:'images/products/sku03_alt.webp',
@@ -911,7 +963,7 @@ const products = {
   },
   sku05: {
     series:'暗涌', seriesLabel:'Core Collection', id:'core',
-    name:'夜宴·高开衩露背睡袍', tag:'签名款',
+    name:'夜宴·高开衩露背睡袍', tag:'晚宴系列',
     desc:'高档丝绒垂坠而下，深 V 露背剪裁配合侧边高开衩——每一步都像在走自己的红毯。白天外披一件西装外套出门，夜晚它就是你的专属高定。暗黑优雅，不露怯。',
     price:'¥89',
     main:'images/products/sku05_main.webp', alt:'images/products/sku05_alt.webp',
@@ -1097,8 +1149,8 @@ function openDetail(id) {
         <p style="font-size:.85rem;color:var(--text2);line-height:1.8">手洗最佳，水温不超过30°C。使用中性洗涤剂，避免漂白。阴凉处自然晾干，不可烘干。真丝及蕾丝产品建议干洗。深色产品首次洗涤可能出现轻微浮色，属正常现象。</p>
       </div>
       <div class="detail-actions">
-        <button class="detail-primary" onclick="alert('即将上架，敬请期待')" aria-label="即将上架">即将上架</button>
-        <button class="detail-secondary" onclick="alert('到货后将第一时间通知您')" aria-label="到货提醒">到货提醒</button>
+        <button class="detail-primary" onclick="showToast('即将上架，敬请期待')" aria-label="即将上架">即将上架</button>
+        <button class="detail-secondary" onclick="showToast('已登记，到货通知已开启','success')" aria-label="到货提醒">到货提醒</button>
       </div>
     </div>`;
 }
