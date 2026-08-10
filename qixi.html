@@ -505,14 +505,18 @@ button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
 /* ============================================
    TIME WINDOW CONTROL
    ============================================ */
-const QIXI_START = new Date('2026-08-13T00:00:00+08:00');
-const QIXI_END   = new Date('2026-08-22T23:59:59+08:00');
-const QIXI_DAY   = new Date('2026-08-19T00:00:00+08:00');
-const params = new URLSearchParams(window.location.search);
+// Use ISO 8601 UTC for reliable cross-browser date parsing
+const QIXI_START = Date.UTC(2026, 7, 12, 16, 0, 0);  // Aug 13 00:00 CST = Aug 12 16:00 UTC
+const QIXI_END   = Date.UTC(2026, 8, 21, 15, 59, 59); // Aug 22 23:59:59 CST
+const QIXI_DAY   = Date.UTC(2026, 8, 18, 16, 0, 0);   // Aug 19 00:00 CST
 
 function shouldShowQixi() {
-  if (params.has('qixi')) return params.get('qixi') === '1';
-  const now = new Date();
+  // Force override via URL: ?qixi=1 (show) or ?qixi=0 (hide)
+  const href = window.location.href;
+  if (href.indexOf('qixi=1') !== -1) return true;
+  if (href.indexOf('qixi=0') !== -1) return false;
+  // Auto time window
+  const now = Date.now();
   return now >= QIXI_START && now <= QIXI_END;
 }
 
@@ -585,8 +589,7 @@ if (!shouldShowQixi()) {
 (function() {
   function pad(n) { return String(n).padStart(2, '0'); }
   function update() {
-    const now = new Date();
-    const diff = QIXI_DAY - now;
+    const diff = QIXI_DAY - Date.now();
     if (diff <= 0) {
       document.getElementById('cd-days').textContent = '00';
       document.getElementById('cd-hours').textContent = '00';
