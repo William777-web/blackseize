@@ -1190,7 +1190,8 @@ function checkQixiStatus() {
   const forceHide = href.indexOf('qixi=0') !== -1;
   const dismissed = localStorage.getItem('qixi_dismissed') === 'true';
 
-  if (forceHide || dismissed) return;
+  if (forceHide) return;
+  if (!forceShow && dismissed) return;
 
   const qixiStart = Date.UTC(2026,7,13,0,0,0) - 8*3600000; // Aug 13 CST
   const qixiEnd   = Date.UTC(2026,7,22,23,59,59) - 8*3600000; // Aug 22 CST
