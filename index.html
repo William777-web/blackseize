@@ -139,19 +139,22 @@ a:focus-visible,button:focus-visible{
   height:1px;background:var(--gold);
 }
 .qixi-nav-indicator{
-  display:none;align-items:center;gap:.45rem;
-  font-size:.68rem;letter-spacing:.15em;
+  display:none;align-items:center;gap:.4rem;
+  font-size:.65rem;letter-spacing:.18em;font-weight:600;
   color:var(--gold);margin-left:1.5rem;
-  animation:qixi-pulse 3s ease-in-out infinite;
+  border:1px solid rgba(201,168,76,.25);
+  padding:.25rem .7rem;border-radius:2px;
+  animation:qixi-pulse 2.5s ease-in-out infinite;
 }
 .qixi-nav-indicator.on{display:flex}
 .qixi-nav-indicator .dot{
-  display:inline-block;width:5px;height:5px;
+  display:inline-block;width:6px;height:6px;
   border-radius:50%;background:var(--gold);
+  box-shadow:0 0 6px var(--gold);
 }
 @keyframes qixi-pulse{
-  0%,100%{opacity:1}
-  50%{opacity:.55}
+  0%,100%{opacity:1;box-shadow:0 0 0 rgba(201,168,76,0)}
+  50%{opacity:.7;box-shadow:0 0 12px rgba(201,168,76,.15)}
 }
 .nav-hamburger{display:none;flex-direction:column;gap:5px;padding:12px}
 .nav-hamburger span{
@@ -564,9 +567,24 @@ a:focus-visible,button:focus-visible{
 .qixi-product-badge.on{display:block}
 /* Golden accents during qixi window */
 body.qixi-active .hero-image{
-  box-shadow:inset 0 0 120px rgba(201,168,76,.04);
+  box-shadow:inset 0 0 200px rgba(201,168,76,.08);
+  background:radial-gradient(ellipse at center,rgba(201,168,76,.12),transparent 70%);
 }
-body.qixi-active .nav{border-bottom-color:rgba(201,168,76,.12)}
+body.qixi-active .nav{border-bottom-color:rgba(201,168,76,.18)}
+/* Full-page qixi ambient particles */
+.qixi-ambient{position:fixed;inset:0;z-index:0;pointer-events:none;display:none}
+.qixi-ambient.on{display:block}
+/* Gold decorative dividers between sections */
+body.qixi-active .section::before{
+  content:'';display:block;width:60px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent);
+  margin:0 auto 1.5rem;
+}
+body.qixi-active .section:first-of-type::before{display:none}
+/* Section label glow */
+body.qixi-active .section-label{text-shadow:0 0 20px rgba(201,168,76,.15)}
+/* Bento card golden shimmer */
+body.qixi-active .bento-card{border-color:rgba(201,168,76,.08)}
 
 /* ============================================
    STYLE GUIDE — editorial asymmetric
@@ -675,6 +693,7 @@ body.qixi-active .nav{border-bottom-color:rgba(201,168,76,.12)}
 <a href="#main" class="skip-link">跳过导航，直达内容</a>
 
 <div class="film-grain"></div>
+<canvas class="qixi-ambient" id="qixi-ambient"></canvas>
 
 <!-- NAVIGATION -->
 <nav class="nav" id="nav">
@@ -1220,8 +1239,9 @@ function checkQixiStatus() {
       const badge = document.getElementById('qixi-badge-sku10');
       if (badge) badge.classList.add('on');
     }, 100);
-    // Hero starfield
+    // Hero starfield + full-page ambient
     initQixiStarfield();
+    initQixiAmbient();
   }
 }
 
@@ -1233,11 +1253,16 @@ function dismissQixi() {
   if (navInd) navInd.classList.remove('on');
   const badge = document.getElementById('qixi-badge-sku10');
   if (badge) badge.classList.remove('on');
+  // Clean up canvases
+  const sf = document.getElementById('qixi-starfield');
+  if (sf) { sf.classList.remove('on'); const sfc = sf.getContext('2d'); sfc && sfc.clearRect(0,0,sf.width,sf.height); }
+  const amb = document.getElementById('qixi-ambient');
+  if (amb) { amb.classList.remove('on'); const ac = amb.getContext('2d'); ac && ac.clearRect(0,0,amb.width,amb.height); }
   try { localStorage.setItem('qixi_dismissed', 'true'); } catch(e) {}
 }
 
 /* ============================================
-   QIXI STARFIELD — subtle gold particles
+   QIXI STARFIELD — dense gold particles
    ============================================ */
 function initQixiStarfield() {
   const canvas = document.getElementById('qixi-starfield');
@@ -1251,16 +1276,19 @@ function initQixiStarfield() {
   const ctx = canvas.getContext('2d');
 
   const stars = [];
-  const count = 60;
+  const count = 150;
   for (let i = 0; i < count; i++) {
+    const isSparkle = i < 12;
     stars.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      r: Math.random() * 1.2 + 0.3,
+      r: isSparkle ? Math.random() * 2 + 1.2 : Math.random() * 1 + 0.4,
       a: Math.random(),
-      da: (Math.random() - 0.5) * 0.008,
-      vx: (Math.random() - 0.5) * 0.15,
-      vy: (Math.random() - 0.5) * 0.15
+      da: (Math.random() - 0.4) * 0.01,
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: -Math.random() * 0.25 - 0.08,
+      sparkle: isSparkle,
+      maxAlpha: isSparkle ? 0.9 : 0.6
     });
   }
 
@@ -1268,7 +1296,7 @@ function initQixiStarfield() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (const s of stars) {
       s.a += s.da;
-      if (s.a > 1 || s.a < 0.1) s.da *= -1;
+      if (s.a > s.maxAlpha || s.a < 0.05) s.da *= -1;
       s.x += s.vx;
       s.y += s.vy;
       if (s.x < 0) s.x = canvas.width;
@@ -1277,17 +1305,73 @@ function initQixiStarfield() {
       if (s.y > canvas.height) s.y = 0;
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(201,168,76,${s.a * 0.5})`;
+      ctx.fillStyle = s.sparkle
+        ? `rgba(255,215,0,${s.a})`
+        : `rgba(201,168,76,${s.a})`;
+      ctx.fill();
+      // Glow for sparkles
+      if (s.sparkle && s.a > 0.5) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255,215,0,${s.a * 0.15})`;
+        ctx.fill();
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  window.addEventListener('resize', () => {
+    canvas.width = heroImg.offsetWidth;
+    canvas.height = heroImg.offsetHeight;
+  });
+}
+
+/* ============================================
+   QIXI AMBIENT — full-page drift particles
+   ============================================ */
+function initQixiAmbient() {
+  const canvas = document.getElementById('qixi-ambient');
+  if (!canvas) return;
+  canvas.classList.add('on');
+  canvas.width = window.innerWidth;
+  canvas.height = document.body.scrollHeight;
+  const ctx = canvas.getContext('2d');
+
+  const motes = [];
+  const count = 40;
+  for (let i = 0; i < count; i++) {
+    motes.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.3,
+      a: Math.random() * 0.35,
+      da: (Math.random() - 0.5) * 0.004,
+      vy: -Math.random() * 0.15 - 0.05
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const m of motes) {
+      m.a += m.da;
+      if (m.a > 0.35 || m.a < 0.02) m.da *= -1;
+      m.y += m.vy;
+      if (m.y < 0) { m.y = canvas.height; m.x = Math.random() * canvas.width; }
+      if (m.y > canvas.height) m.y = 0;
+      ctx.beginPath();
+      ctx.arc(m.x, m.y, m.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(201,168,76,${m.a})`;
       ctx.fill();
     }
     requestAnimationFrame(draw);
   }
   draw();
 
-  // Resize handler
+  // Resize + scroll height
   window.addEventListener('resize', () => {
-    canvas.width = heroImg.offsetWidth;
-    canvas.height = heroImg.offsetHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = document.body.scrollHeight;
   });
 }
 
