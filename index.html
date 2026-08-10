@@ -176,6 +176,10 @@ a:focus-visible,button:focus-visible{
   transition:color .3s;min-height:44px;display:flex;align-items:center;
 }
 .mobile-menu a:hover,.mobile-menu a.active{color:var(--text)}
+.mobile-menu a.mobile-qixi-link{
+  color:var(--gold);border-bottom-color:rgba(201,168,76,.15);
+}
+.mobile-menu a.mobile-qixi-link:hover{color:var(--text)}
 
 /* ============================================
    SECTION BASE
@@ -333,6 +337,8 @@ a:focus-visible,button:focus-visible{
 .product-desc{
   font-size:.82rem;color:var(--text2);
   line-height:1.6;margin-bottom:.5rem;
+  display:-webkit-box;-webkit-line-clamp:3;
+  -webkit-box-orient:vertical;overflow:hidden;
 }
 .product-meta{display:flex;align-items:center;gap:1rem}
 .product-price{font-size:.95rem;font-weight:600;color:var(--text)}
@@ -716,6 +722,7 @@ body.qixi-active .bento-card{border-color:rgba(201,168,76,.08)}
   <a href="#shop" onclick="navigate('shop');closeMenu()">系列</a>
   <a href="#guide" onclick="navigate('guide');closeMenu()">穿搭指南</a>
   <a href="#story" onclick="navigate('story');closeMenu()">品牌故事</a>
+  <a href="#ceremony" onclick="navigate('shop');closeMenu();setTimeout(()=>scrollToSeries('ceremony'),150)" class="mobile-qixi-link" id="mobile-qixi-link" style="display:none;color:var(--gold)">七夕限定 → 仪式系列</a>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -830,10 +837,9 @@ body.qixi-active .bento-card{border-color:rgba(201,168,76,.08)}
   <section class="manifesto" id="manifesto">
     <div class="manifesto-bg"></div>
     <div class="manifesto-content">
-      <div class="manifesto-line anim-manifesto">黑色不是颜色的缺失，</div>
-      <div class="manifesto-line gold anim-manifesto">是所有颜色的总和。</div>
-      <div class="manifesto-line dim anim-manifesto">穿上它，你不再是别人眼中的谁——</div>
-      <div class="manifesto-line anim-manifesto">你是自己选择成为的那个人。</div>
+      <div class="manifesto-line anim-manifesto">黑色是最深的宣言。</div>
+      <div class="manifesto-line gold anim-manifesto">穿上它，你不再是别人眼中的谁。</div>
+      <div class="manifesto-line dim anim-manifesto">你是自己选择成为的那个人。</div>
       <div class="manifesto-divider anim-manifesto"></div>
       <a href="#shop" class="manifesto-cta anim-manifesto" onclick="navigate('shop')">探索暗驭</a>
     </div>
@@ -916,6 +922,7 @@ body.qixi-active .bento-card{border-color:rgba(201,168,76,.08)}
       <a href="#guide" onclick="navigate('home');setTimeout(()=>document.getElementById('guide-section').scrollIntoView(),100)">穿搭指南</a>
       <a href="#story" onclick="navigate('home');setTimeout(()=>document.getElementById('story-section').scrollIntoView(),100)">品牌故事</a>
       <a href="#manifesto" onclick="navigate('home');setTimeout(()=>document.getElementById('manifesto').scrollIntoView(),100)">品牌宣言</a>
+      <a href="javascript:void(0)" onclick="showToast('添加品牌客服微信咨询购买：BLACKSEIZE2026')">咨询购买</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -974,7 +981,7 @@ const products = {
   },
   sku03: {
     series:'暗涌', seriesLabel:'Core Collection', id:'core',
-    name:'暗涌·网格镂空连体衣', tag:'网纹系列',
+    name:'暗涌·网格镂空连体衣', tag:'全身镂空',
     desc:'「我能驾驭吗？」打开包装的那一刻你还在犹豫，穿上之后一切都有了答案。全身网格如建筑结构般勾勒线条，每一个镂空都精准定位在身体最自信的弧度上。不是你穿它——是它找到你的轮廓，然后为它加冕。',
     price:'¥69',
     main:'images/products/sku03_main.webp', alt:'images/products/sku03_alt.webp',
@@ -982,7 +989,7 @@ const products = {
   },
   sku05: {
     series:'暗涌', seriesLabel:'Core Collection', id:'core',
-    name:'夜宴·高开衩露背睡袍', tag:'晚宴系列',
+    name:'夜宴·高开衩露背睡袍', tag:'丝绒露背',
     desc:'高档丝绒垂坠而下，深 V 露背剪裁配合侧边高开衩——每一步都像在走自己的红毯。白天外披一件西装外套出门，夜晚它就是你的专属高定。暗黑优雅，不露怯。',
     price:'¥89',
     main:'images/products/sku05_main.webp', alt:'images/products/sku05_alt.webp',
@@ -990,7 +997,7 @@ const products = {
   },
   sku06: {
     series:'暗涌', seriesLabel:'Core Collection', id:'core',
-    name:'沉溺·透纱浴袍套装', tag:'签名款',
+    name:'沉溺·透纱浴袍套装', tag:'透纱薄款',
     desc:'薄如蝉翼的纱，透光不透俗。你不需要观众——这件只为镜前的自己存在。配套同色丁字裤，干净的线条抹去一切多余。穿上，关灯，然后重新认识自己。',
     price:'¥89',
     main:'images/products/sku06_main.webp', alt:'images/products/sku06_alt.webp',
@@ -1006,7 +1013,7 @@ const products = {
   },
   sku07: {
     series:'掌控', seriesLabel:'Power Collection', id:'power',
-    name:'掌控·蕾丝绑带胸衣腿环套', tag:'身体地图',
+    name:'掌控·蕾丝绑带胸衣腿环套', tag:'绑带调节',
     desc:'蕾丝绑带如等高线般缠绕身体。胸衣承托轮廓，腿环定义边界——每一条绑带都由你亲手调整，每一处镂空都是你画下的领土。不是束缚，是身体自主权的精密声明。',
     price:'¥89',
     main:'images/products/sku07_main.webp', alt:'images/products/sku07_alt.webp',
@@ -1022,7 +1029,7 @@ const products = {
   },
   sku09: {
     series:'仪式', seriesLabel:'Ceremony Collection', id:'ceremony',
-    name:'至臻·多片蕾丝绑带连体衣', tag:'匠心之作',
+    name:'至臻·多片蕾丝绑带连体衣', tag:'手工拼接',
     desc:'多片法国蕾丝手工拼接，全身绑带系统——这不是日常消费品，是你为某个夜晚预留的惊喜。复杂工艺只为完美贴合，每一处拼接都是时间与手艺的注脚。穿上它，你值得被自己隆重对待。',
     price:'¥128',
     main:'images/products/sku09_main.webp', alt:'images/products/sku09_alt.webp',
@@ -1054,7 +1061,7 @@ function renderProductCard(id) {
       </div>
       <div class="product-info">
         <div class="product-name">${p.name}</div>
-        <div class="product-desc">${p.desc.substring(0,40)}…</div>
+        <div class="product-desc">${p.desc}</div>
         <div class="product-meta"><div class="product-price">${p.price}</div></div>
       </div>
     </div>`;
@@ -1154,21 +1161,21 @@ function openDetail(id) {
       <div class="detail-specs">
         <h4>尺码指南</h4>
         <table class="size-table">
-          <thead><tr><th>尺码</th><th>胸围 (cm)</th><th>腰围 (cm)</th><th>臀围 (cm)</th></tr></thead>
+          <thead><tr><th>尺码</th><th>胸围 (cm)</th><th>腰围 (cm)</th><th>臀围 (cm)</th><th>参考体重</th></tr></thead>
           <tbody>
-            <tr><td>S</td><td>80-84</td><td>62-66</td><td>86-90</td></tr>
-            <tr><td>M</td><td>84-88</td><td>66-70</td><td>90-94</td></tr>
-            <tr><td>L</td><td>88-92</td><td>70-74</td><td>94-98</td></tr>
+            <tr><td>S</td><td>80-84</td><td>62-66</td><td>86-90</td><td>40-47kg</td></tr>
+            <tr><td>M</td><td>84-88</td><td>66-70</td><td>90-94</td><td>47-55kg</td></tr>
+            <tr><td>L</td><td>88-92</td><td>70-74</td><td>94-98</td><td>55-62kg</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:1rem;font-size:.78rem;color:var(--text3);line-height:1.6">* 均码产品适合 S-M 身材，手工测量存在 1-2cm 误差。</p>
+        <p style="margin-top:1rem;font-size:.78rem;color:var(--text3);line-height:1.6">* 均码产品适合 S-M 身材，手工测量存在 1-2cm 误差。体重参考基于身高160cm标准体型，实际选码请结合三围数据。</p>
       </div>
       <div class="detail-specs">
         <h4>洗护指南</h4>
         <p style="font-size:.85rem;color:var(--text2);line-height:1.8">手洗最佳，水温不超过30°C。使用中性洗涤剂，避免漂白。阴凉处自然晾干，不可烘干。真丝及蕾丝产品建议干洗。深色产品首次洗涤可能出现轻微浮色，属正常现象。</p>
       </div>
       <div class="detail-actions">
-        <button class="detail-primary" onclick="showToast('即将上架，敬请期待')" aria-label="即将上架">即将上架</button>
+        <button class="detail-primary" onclick="showToast('添加品牌客服微信咨询购买：BLACKSEIZE2026')" aria-label="咨询购买">咨询购买</button>
         <button class="detail-secondary" onclick="showToast('已登记，到货通知已开启','success')" aria-label="到货提醒">到货提醒</button>
       </div>
     </div>`;
@@ -1234,6 +1241,9 @@ function checkQixiStatus() {
     // Nav indicator
     const navInd = document.getElementById('qixi-nav-indicator');
     if (navInd) navInd.classList.add('on');
+    // Mobile menu qixi link
+    const mobileQixi = document.getElementById('mobile-qixi-link');
+    if (mobileQixi) mobileQixi.style.display = 'flex';
     // SKU-10 badge (available after renderAllGrids)
     setTimeout(() => {
       const badge = document.getElementById('qixi-badge-sku10');
@@ -1253,6 +1263,9 @@ function dismissQixi() {
   if (navInd) navInd.classList.remove('on');
   const badge = document.getElementById('qixi-badge-sku10');
   if (badge) badge.classList.remove('on');
+  // Mobile menu qixi link
+  const mobileQixi = document.getElementById('mobile-qixi-link');
+  if (mobileQixi) mobileQixi.style.display = 'none';
   // Clean up canvases
   const sf = document.getElementById('qixi-starfield');
   if (sf) { sf.classList.remove('on'); const sfc = sf.getContext('2d'); sfc && sfc.clearRect(0,0,sf.width,sf.height); }
