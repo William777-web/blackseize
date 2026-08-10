@@ -1188,17 +1188,22 @@ function checkQixiStatus() {
   const href = window.location.href;
   const forceShow = href.indexOf('qixi=1') !== -1;
   const forceHide = href.indexOf('qixi=0') !== -1;
-  const dismissed = localStorage.getItem('qixi_dismissed') === 'true';
+  let dismissed = false;
+  try { dismissed = localStorage.getItem('qixi_dismissed') === 'true'; } catch(e) {}
+  console.log('[Qixi]', {href, forceShow, forceHide, dismissed});
 
-  if (forceHide) return;
-  if (!forceShow && dismissed) return;
+  if (forceHide) { console.log('[Qixi] forceHide, skip'); return; }
+  if (!forceShow && dismissed) { console.log('[Qixi] dismissed, skip'); return; }
 
   const qixiStart = Date.UTC(2026,7,13,0,0,0) - 8*3600000; // Aug 13 CST
   const qixiEnd   = Date.UTC(2026,7,22,23,59,59) - 8*3600000; // Aug 22 CST
   const now = Date.now();
 
-  if (forceShow || (now >= qixiStart && now <= qixiEnd)) {
+  if (forceShow || (now >= qixiStart && now <= qixiEnd) || href.indexOf('#qixi') !== -1) {
+    console.log('[Qixi] activating...', {forceShow, inWindow: now >= qixiStart && now <= qixiEnd});
     activateQixi();
+  } else {
+    console.log('[Qixi] not in window, not forceShow');
   }
 
   function activateQixi() {
@@ -1228,7 +1233,7 @@ function dismissQixi() {
   if (navInd) navInd.classList.remove('on');
   const badge = document.getElementById('qixi-badge-sku10');
   if (badge) badge.classList.remove('on');
-  localStorage.setItem('qixi_dismissed', 'true');
+  try { localStorage.setItem('qixi_dismissed', 'true'); } catch(e) {}
 }
 
 /* ============================================
@@ -1289,9 +1294,10 @@ function initQixiStarfield() {
 /* ============================================
    GSAP ANIMATIONS
    ============================================ */
-gsap.registerPlugin(ScrollTrigger);
+try { gsap.registerPlugin(ScrollTrigger); } catch(e) { console.warn('GSAP not available:', e.message); }
 
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let prefersReducedMotion = false;
+try { prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e) {}
 
 document.addEventListener('DOMContentLoaded', () => {
   renderAllGrids();
